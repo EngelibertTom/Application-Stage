@@ -1,0 +1,100 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des arbres' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_tree_list') }}"> Arbres </a></li>
+{% endblock %}
+
+{% block body %}
+
+    {% if nbNursery %}
+        {% if nbTree %}
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{ path('app_admin_tree_add') }}" class="btn btn-info float-right">
+                        <i class="material-icons">add_circle</i> Ajouter un arbre
+                    </a>
+                    <button type="button" class="btn btn-dark float-right" data-toggle="modal"
+                            data-target="#modalGenerateQrCode">
+                        <i class="material-icons">qr_code</i> Générer des QrCodes
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title "> Les arbres </h4>
+                            <p class="card-category"> Liste des arbres de l'association </p>
+                        </div>
+                        <div class="card-body">
+                            <table id="tableTree" class="table table-striped table-bordered nowrap">
+                                <thead class=" text-primary">
+                                <tr>
+                                    <th><input type="checkbox" id="select_all" class="dt-active"></th>
+                                    <th data-filter-control="input"> Statut </th>
+                                    <th> #Ref </th>
+                                    <th> Nom commun </th>
+                                    <th> Serre </th>
+                                    <th> Table </th>
+                                    <th> Segment </th>
+                                    <th> Colonne </th>
+                                    <th> Rang </th>
+                                    <th width="10%"> Actions </th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            Liste des arbres
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"> Aucun arbre trouvé <br/></h4>
+
+                            <a href="{{ path('app_admin_tree_add') }}" type="button" class="btn btn-info">
+                                <i class="material-icons">add_circle</i> Ajouter un arbre
+                            </a>
+                            OU
+                            <button type="button" class="btn btn-dark" data-toggle="modal"
+                                    data-target="#modalGenerateQrCode">
+                                <i class="material-icons">qr_code</i> Générer des QrCodes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        {% include 'admin/position/_includes/_not_found_nursery.html.twig' %}
+    {% endif %}
+
+    {{ modals.formController({
+        id: 'modalGenerateQrCode',
+        title: 'Générer des QrCodes',
+        content: render(controller('App\\Controller\\Admin\\TreeController::generateQrCodesAction'))
+    }) }}
+{% endblock %}

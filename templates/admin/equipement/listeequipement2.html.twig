@@ -1,0 +1,76 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Hello EquipementController!{% endblock %}
+
+{% block body %}
+    {% include 'admin/equipement/_nav.html.twig' %}
+
+    <h1>Liste des équipements</h1>
+
+    <a href="{{ path('app_admin_ajoutequipement') }}">Ajouter un équipement</a>
+
+    <div class="row">
+    <div class="col-md-12">
+    <div class="card">
+    <div class="card-header card-header-info">
+        <h4 class="card-title "> Les équipements </h4>
+        <p class="card-category"> Liste des équipements </p>
+    </div>
+    <div class="card-body">
+    <div class="table-responsive">
+    <table class="table">
+    <thead class=" text-primary">
+    <tr>
+        <th> Nom </th>
+        <th> Commentaire</th>
+        <th> Action </th>
+
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for donnee in donnees %}
+        <tr>
+            <td><a href="{{ path('app_admin_operation', { id: donnee.id }) }}">{{ donnee.name }}</a></td>
+            <td> {{ donnee.commentaire }}</td>
+
+            <th class="td-actions">
+                <a href="{{ donnee.qrCode }}"
+                   rel="tooltip" class="btn btn-dark btn-simple">
+                    <i class="material-icons">qr_code</i>
+                </a>
+
+                <a href="{{ path('app_admin_edit2', { id: donnee.id }) }}"
+                   rel="tooltip" class="btn btn-success btn-simple">
+                    <i class="material-icons">edit</i>
+                </a>
+
+                <a href="{{ path('app_admin_deleteequip', { id: donnee.id }) }}"
+                   rel="tooltip" class="btn btn-danger btn-simple">
+                    <i class="material-icons">close</i>
+                </a>
+
+
+
+            </th>
+
+        </tr>
+
+
+
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}

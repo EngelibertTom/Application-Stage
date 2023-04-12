@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+
+
+
+{% block body %}
+    {% include 'admin/equipement/_nav.html.twig' %}
+
+    <h1> Modifier un entretien </h1>
+
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+
+                <div class="col-md-3">
+                    {{ form_row(form.dateRealisation) }}
+                </div>
+
+                <div class="col-md-3">
+                    {{ form_row(form.observation) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.urgence) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.utilisateur) }}
+                </div>
+
+                <div class="col-md-3">
+                    {{ form_row(form.realisation) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success" style="margin-top:60px;">Modifier l'entretien</button>
+
+    {{ form_end(form) }}
+{% endblock %}

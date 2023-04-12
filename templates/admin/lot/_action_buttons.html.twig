@@ -1,0 +1,19 @@
+{% import "admin/macros/modals.html.twig" as modals %}
+
+<a href="{{ lot.qrCode }}" download="qrCode-lot-{{ lot.id }}.png"
+   rel="tooltip" class="btn btn-dark btn-simple">
+    <i class="material-icons">qr_code</i>
+</a>
+<a href="{{ path('app_admin_lot_edit', { id: lot.id }) }}"
+   rel="tooltip" class="btn btn-success btn-simple">
+    <i class="material-icons">edit</i>
+</a>
+<button type="button" rel="tooltip" class="btn btn-danger btn-simple"
+        data-toggle="modal" data-target="#confirmDelete{{ lot.id }}">
+    <i class="material-icons">close</i>
+</button>
+
+{{ modals.confirmDelete({
+    id: 'confirmDelete' ~ lot.id,
+    pathDelete: path('app_admin_lot_delete' , { id: lot.id })
+}) }}

@@ -1,0 +1,62 @@
+security:
+    encoders:
+        App\Entity\User: sha512
+        App\Entity\Owner: sha512
+
+    role_hierarchy:
+        ROLE_USER: ROLE_USER
+        ROLE_VOLUNTEER: [ ROLE_USER, ROLE_ADMIN ] #Bénévol
+        ROLE_SPECIES_MANAGER: [ ROLE_VOLUNTEER ] #Admin des espèces
+        ROLE_MANAGER: [ ROLE_VOLUNTEER ] #Admin pépinière
+        ROLE_SUPER_ADMIN: [ ROLE_SPECIES_MANAGER, ROLE_MANAGER, ROLE_ALLOWED_TO_SWITCH ] #Super admin
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        users:
+            entity:
+                class: App\Entity\User
+        owners:
+            entity:
+                class: App\Entity\Owner
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        api:
+            pattern: ^/admin/
+            anonymous: true
+            lazy: true
+            provider: users
+            access_denied_handler: App\Security\AccessDeniedHandler
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAdminAuthenticator
+            logout:
+                path:   app_admin_logout
+                target: app_admin_login
+
+        front:
+            pattern: ^/
+            anonymous: true
+            lazy: true
+            provider: owners
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path:   app_logout
+                target: app_login
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_USER }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

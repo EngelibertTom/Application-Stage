@@ -1,0 +1,169 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+{% import _self as formMacros %}
+{% set isEdit = lot is defined %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_lot_list') }}"> Lots </a></li>
+    <li class="active breadcrumb-item" aria-current="page"> Nouveau </li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class='col-sm-6'>
+                <input type='text' class="form-control" id='datetimepicker4' />
+            </div>
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title">
+                        <i class="material-icons">create</i>
+                        Ajouter un nouveau lot
+                    </h4>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <a href="{{ path('app_admin_lot_list') }}">
+                                <i class="material-icons">keyboard_backspace</i> Retour à la liste
+                            </a>
+                        </div>
+                    </div>
+
+                    {{ form_start(form) }}
+
+                    <div class="row">
+                        <div class="col-md-4 mt-3">
+                            {{ form_row(form.name) }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form_row(form.species) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-3">
+                            {{ form_row(form.nursery) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(form.entryDate) }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form_row(form.recoveryType) }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form_row(form.ageRecovery) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            {{ form_row(form.place) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(form.city) }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form_row(form.postalCode) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(form.country) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            {{ form_row(form.recoveryCause) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="modal fade" id="modal" tabindex="-1" role="dialog"
+                             aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalLabel"> CROPER </h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="img-container">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div style="max-height: 600px">
+                                                        <div id="image_container">
+                                                            <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" height="100%" width="100%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="preview"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cancel
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="crop">Crop
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="card card-nav-tabs">
+                                <div class="card-header card-header-success">
+                                    Les photos
+                                </div>
+                                <div class="cart-body p-3">
+                                    {% if isEdit %}
+                                        <div class="row lotPictures col-md-12 mt-3" data-prototype="{{ formMacros.lotPictures(lot, form.lotPictures.vars.prototype)|e('html_attr') }}">
+                                            {% for lotPicture in form.lotPictures %}
+                                                {{ formMacros.lotPictures(lot, lotPicture) }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form_end(form) }}
+
+                    <div class="col-md-12 mt-4">
+                        <a href="{{ path('app_admin_lot_list') }}">
+                            <i class="material-icons">keyboard_backspace</i> Retour à la liste
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ modals.confirmDelete({
+        id: 'confirmDeletePicture'
+    }) }}
+{% endblock %}
+
+{% macro lotPictures(lot, lotPicture) %}
+    {% set isEdit = lotPicture.vars.value is defined and lotPicture.vars.value and lotPicture.vars.value.id %}
+
+    <div class="col-md-2 mb-sm-3 item-collection" style="display: inline-block" data-ajax="/admin/lots/uploadPicture/{{ lot.id }}{% if isEdit %}/{{ lot.id }}{% endif %}">
+        {% if isEdit %}
+            <span class="pictureTree" data-id="{{ lotPicture.vars.value.id }}">
+                <img src="{{ asset(lotPicture.vars.value.path) }}">
+            </span>
+            <span class="d-none"> {{ form_widget(lotPicture.path) }} </span>
+        {% else %}
+            <span class="pictureTree"></span>
+            {{ form_widget(lotPicture.path) }}
+        {% endif %}
+    </div>
+{% endmacro %}

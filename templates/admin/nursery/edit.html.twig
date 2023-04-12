@@ -1,0 +1,90 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+{% import _self as formMacros %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_nursery_list') }}"> Pépinières </a></li>
+    <li class="active breadcrumb-item" aria-current="page"> Nouveau </li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title">
+                        <i class="material-icons">create</i>
+                        Ajouter une nouvelle pépinière
+                    </h4>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <a href="{{ path('app_admin_nursery_list') }}">
+                                <i class="material-icons">keyboard_backspace</i> Retour à la liste
+                            </a>
+                        </div>
+                    </div>
+
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {{ form_row(form.name) }}
+                                </div>
+                                <div class="col-md-4">
+                                    {{ form_row(form.city) }}
+                                </div>
+                                <div class="col-md-4">
+                                    {{ form_row(form.postalCode) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {{ form_row(form.email) }}
+                                </div>
+                                <div class="col-md-4">
+                                    {{ form_row(form.phone) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-nav-tabs">
+                                <div class="card-header card-header-success">
+                                    Aires
+                                </div>
+                                <div class="cart-body p-3">
+                                    <div class="locations row"
+                                         data-prototype="{{ formMacros.locations(form.locations.vars.prototype)|e('html_attr') }}">
+                                        {% for location in form.locations %}
+                                            {{ formMacros.locations(location) }}
+                                        {% endfor %}
+
+                                        {{ modals.confirmDelete({
+                                            id: 'confirmDeleteLocation'
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% macro locations(location) %}
+    <div class="col-md-12 mb-sm-3 item-collection">
+        <div class="form-row">
+            <div class="col-md-10 mt-2">
+                {{ form_row(location.name) }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

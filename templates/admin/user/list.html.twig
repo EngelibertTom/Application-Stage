@@ -1,0 +1,80 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des utilisateurs' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_user_list') }}"> Utilisateurs </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/user/_nav.html.twig' %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ path('app_admin_user_add') }}" class="btn btn-info float-right">
+                <i class="material-icons">add_circle</i> Ajouter un utilisateur
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title "> Les utilisateurs </h4>
+                    <p class="card-category"> Liste des utilisateurs de l'application </p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th> Nom </th>
+                                    <th> Email </th>
+                                    <th> Rôles </th>
+                                    <th> Actif </th>
+                                    <th width="10%"> Actions </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <td> {{ user }} </td>
+                                        <td> {{ user.email }} </td>
+                                        <td> {{ user.roles | labelRoles | raw }} </td>
+                                        <td>
+                                            {% if user.active %}
+                                                <i class="material-icons text-success">done</i>
+                                            {% else %}
+                                                <i class="material-icons text-danger">clear</i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="td-actions">
+                                            {% if (is_granted('ROLE_MANAGER') and 'ROLE_SUPER_ADMIN' not in user.roles) or (is_granted('ROLE_SUPER_ADMIN')) %}
+                                            <a href="{{ path('app_admin_user_edit', { id: user.id }) }}" rel="tooltip" class="btn btn-success btn-simple">
+                                                <i class="material-icons">edit</i>
+                                            </a>
+
+                                            <button type="button" rel="tooltip" class="btn btn-danger btn-simple" data-toggle="modal" data-target="#confirmDelete{{ user.id }}">
+                                                <i class="material-icons">close</i>
+                                            </button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+
+                                    {% if is_granted('ROLE_MANAGER') and not 'ROLE_SUPER_ADMIN' in user.roles %}
+                                    {{ modals.confirmDelete({
+                                        id: 'confirmDelete' ~ user.id,
+                                        pathDelete: path('app_admin_user_delete' , { id: user.id })
+                                    }) }}
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

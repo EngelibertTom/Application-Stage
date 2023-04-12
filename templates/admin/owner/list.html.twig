@@ -1,0 +1,46 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des utilisateurs' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_owner_list') }}"> Adoptants </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_MANAGER') %}
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ path('app_admin_owner_add') }}" class="btn btn-info float-right">
+                    <i class="material-icons">add_circle</i> Ajouter un adoptant
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title "> Les adoptants </h4>
+                    <p class="card-category"> Liste des adoptants </p>
+                </div>
+                <div class="card-body">
+                    <table id="tableOwners" class="table">
+                        <thead class=" text-primary">
+                            <tr>
+                                <th> Nom </th>
+                                <th> Code postal </th>
+                                <th> Nb adoption </th>
+                                <th> Espèces </th>
+                                <th> Email </th>
+                                <th> Téléphone </th>
+                                <th width="10%"> Actions </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

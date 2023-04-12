@@ -1,0 +1,15 @@
+{% import "admin/macros/modals.html.twig" as modals %}
+
+<a href="{{ path('app_admin_species_edit', { id: species.id }) }}"
+   rel="tooltip" class="btn btn-success btn-simple">
+    <i class="material-icons">edit</i>
+</a>
+<button type="button" rel="tooltip" class="btn btn-danger btn-simple"
+        data-toggle="modal" data-target="#confirmDelete{{ species.id }}">
+    <i class="material-icons">close</i>
+</button>
+
+{{ modals.confirmDelete({
+    id: 'confirmDelete' ~ species.id,
+    pathDelete: path('app_admin_species_delete' , { id: species.id })
+}) }}

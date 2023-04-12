@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <p class="h3"> Il y a <span class="h2 text-primary"> {{ numberTrees }} </span> arbres </p>
+
+    <div class="row">
+        {% for tree in trees %}
+            <div class="col-md-4 col-lg-3 text-center block-tree">
+                <div class="col-md-12">
+                    <a href="{{ path('app_tree_detail', { id: tree.id }) }}">
+                        <img src="{{ asset(tree | mainPicture ) }}" class="img-responsive" height="300" alt="bonsai">
+                    </a>
+                    <a href="{{ path('app_tree_adoption', { id: tree.id }) }}"
+                       class="btn btn-primary btn-block {% if tree.adoption %} disabled {% endif %}">
+                        Parrainer
+                    </a>
+                </div>
+
+                <div class="col-md-12 mt-2">
+                    <p class="h4">
+                        <a href="{{ path('app_tree_detail', { id: tree.id }) }}">
+                            {{ tree ~ ' ' ~ tree.species }}
+                        </a>
+                    </p>
+                    <p>
+                        {% for category in tree.categories %}
+                            <span class="badge badge-dark"> {{ category }} </span>
+                        {% endfor %}
+                        {% for potentialStyle in tree.potentialStyles %}
+                            <span class="badge badge-secondary"> {{ potentialStyle }} </span>
+                        {% endfor %}
+                    </p>
+                </div>
+                
+            </div>
+        {% endfor %}
+    </div>
+
+    {{ knp_pagination_render(trees) }}
+
+{% endblock %}

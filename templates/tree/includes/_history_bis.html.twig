@@ -1,0 +1,35 @@
+{% if tree is defined %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-nav-tabs">
+                <div class="cart-body pt-3 pr-3 pl-3">
+                    <div style="overflow: auto; max-height: 490px">
+                        {% for historyTree in tree.historyTrees %}
+                            {% if (not historyTree.visiblePublic and is_granted('ROLE_VOLUNTEER')) or (historyTree.visiblePublic) %}
+                            <div class="border p-3 mb-3">
+                                <div class="{% if not loop.last %} border-bottom {% endif %} pb-3">
+                                    <div class="row">
+                                        <div class="col-sm-4 border-right-lg border-right-md-0">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <h1 class="mr-2 text-primary font-weight-normal"> {{ historyTree.date|date('d') }} </h1>
+                                                <div>
+                                                    <p class="font-weight-bold mb-0 text-dark"> {{ historyTree.date|date('M') }} </p>
+                                                    <p class="mb-0"> {{ historyTree.date|date('Y') }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 pl-3">
+                                            <p class="text-dark font-weight-bold mb-0"> {{ historyTree.content|raw }} </p>
+                                            <p class="mb-0"> Par {{ historyTree.user }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

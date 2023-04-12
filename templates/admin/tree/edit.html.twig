@@ -1,0 +1,360 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+{% import _self as formMacros %}
+{% set isEdit = tree is defined %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_tree_list') }}"> Arbres </a></li>
+    <li class="active breadcrumb-item" aria-current="page">  {% if isEdit %} Éditer {{ tree }} {% else %} Nouveau {% endif %} </li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title">
+                        <i class="material-icons">create</i>
+                        {% if isEdit %}
+                            Éditer l'arbre <b> {{ tree }} </b> {{ tree.species }}
+
+                            <a href="{{ path('app_tree_detail', { id: tree.id, show: true }) }}" target="_blank" class="btn btn-info btn-light pull-right p-2 ml-2">
+                                <i class="material-icons">public</i>
+                            </a>
+
+                            <a href="{{ path('app_admin_tree_list') }}" class="btn btn-info btn-small pull-right p-2 ml-2">
+                                <i class="material-icons">list</i>
+                            </a>
+
+                            <a href="{{ path('app_admin_tree_detail', { id: tree.id }) }}" class="btn btn-info btn-light pull-right p-2">
+                                <i class="material-icons">pageview</i>
+                            </a>
+                        {% else %}
+                            Ajouter un arbre
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <a href="{{ path('app_admin_tree_list') }}">
+                                <i class="material-icons">keyboard_backspace</i> Retour à la liste
+                            </a>
+                        </div>
+                    </div>
+
+                    {{ form_start(form) }}
+
+                    <div class="row">
+                        <div class="col-xl-8 col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-nav-tabs">
+                                        <div class="card-header card-header-success">
+                                            Informations générales
+                                        </div>
+                                        <div class="cart-body p-3">
+                                            <div class="modal fade" id="modal" tabindex="-1" role="dialog"
+                                                 aria-labelledby="modalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel"> CROPER </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="img-container">
+                                                                <div class="row">
+                                                                    <div class="col-md-8">
+                                                                        <div style="max-height: 600px">
+                                                                            <div id="image_container">
+                                                                                <img id="image" src="https://avatars0.githubusercontent.com/u/3456749" height="100%" width="100%">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="preview"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Cancel
+                                                            </button>
+                                                            <button type="button" class="btn btn-primary" id="crop">Crop
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    {{ form_row(form.lot) }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    {{ form_row(form.species) }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    {{ form_row(form.ageRecovery) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    {{ form_row(form.workingYear) }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    {{ form_row(form.potentialStyles) }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    {{ form_row(form.categories) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-nav-tabs">
+                                        <div class="card-header card-header-success">
+                                            Les photos
+                                        </div>
+                                        <div class="cart-body p-3">
+                                            {% if isEdit %}
+                                                <div class="row treePictures col-md-12 mt-3" data-prototype="{{ formMacros.treePictures(tree, form.treePictures.vars.prototype)|e('html_attr') }}">
+                                                    {% for treePicture in form.treePictures %}
+                                                        {{ formMacros.treePictures(tree, treePicture) }}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-nav-tabs">
+                                        <div class="card-header card-header-success">
+                                            Observations
+                                        </div>
+                                        <div class="cart-body p-3">
+                                            <div class="observations row" data-prototype="{{ formMacros.observations(form.observations.vars.prototype)|e('html_attr') }}">
+                                                {% for observation in form.observations %}
+                                                    {{ formMacros.observations(observation) }}
+                                                {% endfor %}
+
+                                                {{ modals.confirmDelete({
+                                                    id: 'confirmDeleteConfirmation'
+                                                }) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-nav-tabs">
+                                        <div class="card-header card-header-success">
+                                            Emplacement de l'arbre
+                                        </div>
+                                        <div class="cart-body p-3 pb-5">
+                                            <div class="row">
+                                                <div class="col-md-4 mt-3">
+                                                    {{ form_row(form.potType) }}
+                                                </div>
+                                                <div class="col-md-4 mt-3">
+                                                    {{ form_row(form.greenhouse) }}
+                                                </div>
+                                                <div class="col-md-4 mt-3">
+                                                    {{ form_row(form.cultureTable) }}
+                                                </div>
+                                                <div class="col-md-4 mt-5">
+                                                    {{ form_row(form.segment) }}
+                                                </div>
+                                                <div class="col-md-4 mt-5">
+                                                    {{ form_row(form.tableColumn) }}
+                                                </div>
+                                                <div class="col-md-4 mt-5">
+                                                    {{ form_row(form.columnRow) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-nav-tabs">
+                                        <div class="card-header card-header-success">
+                                            Taille de l'arbre
+                                        </div>
+                                        <div class="cart-body p-3">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    {{ form_row(form.height) }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    {{ form_row(form.nebariDiameter) }}
+                                                </div>
+                                                <div class="col-md-4">
+                                                    {{ form_row(form.trunkDiameter) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-nav-tabs">
+                                        <div class="card-header card-header-success">
+                                            Sortie de l'arbre
+                                        </div>
+                                        <div class="cart-body p-3">
+                                            <div class="row">
+                                                <div class="col-md-6 mt-3">
+                                                    {{ form_row(form.status) }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mt-5">
+                                                    {{ form_row(form.outputType) }}
+                                                </div>
+                                                <div class="col-md-6 mt-5">
+                                                    {{ form_row(form.output) }}
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-4 mt-1">
+                                                    {{ form_row(form.adoption.date) }}
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {{ form_row(form.adoption.owner) }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 mt-2">
+                                                    {{ form_row(form.deadTree.date) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-nav-tabs">
+                                <div class="card-header card-header-success">
+                                    Travaux
+                                </div>
+                                <div class="cart-body p-3">
+                                    <div class="works row" data-prototype="{{ formMacros.works(form.works.vars.prototype)|e('html_attr') }}">
+                                        {% for work in form.works %}
+                                            {{ formMacros.works(work) }}
+                                        {% endfor %}
+
+                                        {{ modals.confirmDelete({
+                                            id: 'confirmDeleteWork'
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form_end(form) }}
+
+                    <div class="col-md-12 mt-4">
+                        <a href="{{ path('app_admin_tree_list') }}">
+                            <i class="material-icons">keyboard_backspace</i> Retour à la liste
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ modals.confirmDelete({
+        id: 'confirmDeletePicture'
+    }) }}
+{% endblock %}
+
+{% macro treePictures(tree, treePicture) %}
+    {% set isEdit =  treePicture.vars.value is defined and treePicture.vars.value and treePicture.vars.value.path %}
+
+    <div class="col-md-3 mb-sm-3 item-collection" style="display: inline-block" data-ajax="/admin/trees/uploadPicture/{{ tree.id }}{% if isEdit %}/{{ tree.id }}{% endif %}">
+        {% if isEdit %}
+            <span class="pictureTree" data-id="{{ treePicture.vars.value.id }}">
+                <img src="{{ asset(treePicture.vars.value.path) }}">
+            </span>
+            <span class="d-none"> {{ form_widget(treePicture.path) }} </span>
+        {% else %}
+            <span class="pictureTree"></span>
+            {{ form_widget(treePicture.path) }}
+        {% endif %}
+        <div class="col-md-4 d-inline-block"> {{ form_row(treePicture.featured) }}</div>
+    </div>
+{% endmacro %}
+
+{% macro works(work) %}
+    <div class="col-md-12 mb-sm-3 item-collection">
+        <div class="form-row">
+            <div class="col-md-1 mt-md-3 mt-sm-5">
+                {{ form_row(work.todo) }}
+            </div>
+            <div class="col-md-2 mt-2 pt-2">
+                {% if not work.date.vars.value %}
+                    {{ form_row(work.date, {'attr':{'value': 'now'|date('Y-m-d')}}) }}
+                {% else %}
+                    {{ form_row(work.date) }}
+                {% endif %}
+            </div>
+            <div class="col-md-2 mt-2 pt-1">
+                {{ form_row(work.work) }}
+            </div>
+
+            {% if is_granted('ROLE_MANAGER') %}
+                <div class="col-md-2 mt-2 pt-1">
+                    {{ form_row(work.user) }}
+                </div>
+            {% endif %}
+
+            <div class="col-md-4 mt-md-3 mt-sm-5">
+                {{ form_row(work.comment) }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro observations(observation) %}
+    <div class="col-md-12 mb-sm-3 item-collection">
+        <div class="form-row">
+            <div class="col-md-2 mt-2 pt-2">
+                {% if not observation.date.vars.value %}
+                    {{ form_row(observation.date, {'attr':{'value': 'now'|date('Y-m-d')}}) }}
+                {% else %}
+                    {{ form_row(observation.date) }}
+                {% endif %}
+            </div>
+            <div class="col-md-9 mt-md-3 mt-sm-5">
+                {{ form_row(observation.comment) }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

@@ -1,0 +1,87 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des catégories' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_species_list') }}"> Données </a> </li>
+    <li class="active breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_category_list') }}"> Catégories </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/data/_nav.html.twig' %}
+
+    {% if categories | length %}
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ path('app_admin_category_add') }}" class="btn btn-info float-right">
+                    <i class="material-icons">add_circle</i> Ajouter une catégorie
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title "> Les catégories </h4>
+                        <p class="card-category"> Les catégories des arbres </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th> Nom </th>
+                                        <th> Taille </th>
+                                        <th> Description </th>
+                                        <th width="10%"> Actions </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for category in categories %}
+                                        <tr>
+                                            <td> {{ category.name }} </td>
+                                            <td> {{ category.size }} </td>
+                                            <td> {{ category.description }} </td>
+                                            <td class="td-actions">
+                                                <a href="{{ path('app_admin_category_edit', { id: category.id }) }}" rel="tooltip" class="btn btn-success btn-simple">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <button type="button" rel="tooltip" class="btn btn-danger btn-simple" data-toggle="modal" data-target="#confirmDelete{{ category.id }}">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        {{ modals.confirmDelete({
+                                            id: 'confirmDelete' ~ category.id,
+                                            pathDelete: path('app_admin_category_delete' , { id: category.id })
+                                        }) }}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        Liste des catégories
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"> Aucune catégorie </h4>
+
+                        <a href="{{ path('app_admin_category_add') }}" type="button" class="btn btn-info">
+                            <i class="material-icons">add_circle</i> Ajouter une catégorie
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> {% block title %} Connexion ADMIN {% endblock %} </title>
+
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: "Karla", sans-serif;
+            background-color: #fff;
+            min-height: 100vh;
+        }
+
+        .brand-wrapper {
+            padding-top: 7px;
+            padding-bottom: 8px;
+            text-align: center;
+        }
+
+        .brand-wrapper .logo {
+            height: 12em;
+        }
+
+        .login-section-wrapper {
+            display: -webkit-box;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            flex-direction: column;
+            padding: 16px 100px;
+            background-color: #fff;
+        }
+
+        @media (max-width: 991px) {
+            .login-section-wrapper {
+                padding-left: 50px;
+                padding-right: 50px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .login-section-wrapper {
+                padding-top: 20px;
+                padding-bottom: 20px;
+                min-height: 100vh;
+            }
+        }
+
+        .login-wrapper {
+            width: 300px;
+            max-width: 100%;
+            padding-bottom: 24px;
+        }
+
+        @media (max-width: 575px) {
+            .login-wrapper {
+                width: 100%;
+            }
+        }
+
+        .login-wrapper label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #b0adad;
+        }
+
+        .login-wrapper .form-control {
+            border: none;
+            border-bottom: 1px solid #e7e7e7;
+            border-radius: 0;
+            padding: 9px 5px;
+            min-height: 40px;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .login-wrapper .form-control::-webkit-input-placeholder {
+            color: #b0adad;
+        }
+
+        .login-wrapper .form-control::-moz-placeholder {
+            color: #b0adad;
+        }
+
+        .login-wrapper .form-control:-ms-input-placeholder {
+            color: #b0adad;
+        }
+
+        .login-wrapper .form-control::-ms-input-placeholder {
+            color: #b0adad;
+        }
+
+        .login-wrapper .form-control::placeholder {
+            color: #b0adad;
+        }
+
+        .login-wrapper .login-btn {
+            padding: 13px 20px;
+            background-color: #003b51;
+            border-radius: 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 14px;
+        }
+
+        .login-wrapper .login-btn:hover {
+            border: 1px solid #003b51;
+            background-color: #fff;
+            color: #003b51;
+        }
+
+        .login-wrapper a.forgot-password-link {
+            color: #080808;
+            font-size: 14px;
+            text-decoration: underline;
+            display: inline-block;
+            margin-bottom: 54px;
+        }
+
+        @media (max-width: 575px) {
+            .login-wrapper a.forgot-password-link {
+                margin-bottom: 16px;
+            }
+        }
+
+        .login-wrapper-footer-text {
+            font-size: 16px;
+            color: #000;
+            margin-bottom: 0;
+        }
+
+        .login-title {
+            font-size: 30px;
+            color: #000;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .login-img {
+            width: 100%;
+            height: 100vh;
+            -o-object-fit: cover;
+            object-fit: cover;
+            -o-object-position: left;
+            object-position: left;
+        }
+
+        /*# sourceMappingURL=login.css.map */
+    </style>
+</head>
+<body>
+<main>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-9 px-0 d-none d-sm-block">
+                <img src="{{ asset('img/sidebar-5.jpg') }}" alt="login image" class="login-img">
+            </div>
+            <div class="col-sm-3 login-section-wrapper">
+                <div class="brand-wrapper">
+                    <img src="{{ asset('img/logo.jpg') }}" alt="logo" class="logo">
+                </div>
+                <div class="login-wrapper">
+                    <h1 class="login-title"> {{ 'Connexion'|trans }}</h1>
+                    <form method="post">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        {% if app.user %}
+                            <div class="mb-3">
+                                You are logged in as {{ app.user.username }}, <a
+                                        href="{{ path('app_logout') }}">Logout</a>
+                            </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <label for="email"> {{ 'Email' }} </label>
+                            <input type="email" name="email" id="email" class="form-control">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="password"> {{ 'Mot de passe'|trans }} </label>
+                            <input type="password" name="password" id="password" class="form-control">
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <input name="login" id="login" class="btn btn-block login-btn" type="submit"
+                               value="{{ 'Connexion'|trans }}">
+                    </form>
+                    {# <a href="#!" class="forgot-password-link"> {{ 'Mot de passe oublié ?'|trans }}</a>#}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+</body>
+</html>

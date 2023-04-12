@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="row">
+        {% include 'account/_includes/_navbar.html.twig' %}
+
+        <div class="col-md-10">
+            <div class="table-responsive">
+                <table class="table table-secondary table-striped table-bordered nowrap">
+                    <thead>
+                    <tr>
+                        <th> N° </th>
+                        <th> Espece </th>
+                        <th> Style(s) potentiel(s) </th>
+                        <th> Catégorie(s) </th>
+                        <th> Action(s) </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for adoption in app.user.adoptions %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('app_tree_detail', { id: adoption.tree.id, show: 1 }) }}">
+                                        {{ adoption.tree.id }}
+                                    </a>
+                                </td>
+                                <td> {{ adoption.tree.species }} </td>
+                                <td> {{ adoption.tree.potentialStylesStr }} </td>
+                                <td> {{ adoption.tree.categoriesStr }} </td>
+                                <td>
+                                    <a href="{{ path('app_account_delete_adoption', {id: adoption.id}) }}"
+                                       class="btn btn-danger btn-simple">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

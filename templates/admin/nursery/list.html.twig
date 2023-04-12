@@ -1,0 +1,93 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des arbres' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_nursery_list') }}"> Pépinières </a> </li>
+{% endblock %}
+
+{% block body %}
+
+    {% if nurseries | length %}
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ path('app_admin_nursery_add') }}" class="btn btn-info float-right">
+                    <i class="material-icons">add_circle</i> Ajouter une pépinière
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title "> Les pépinières </h4>
+                        <p class="card-category"> Liste des pépinières de l'association </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th> Nom </th>
+                                        <th> Code postal </th>
+                                        <th> Nb arbres total </th>
+                                        <th> Nb arbres parrainable </th>
+                                        <th> Nb arbres adoptable </th>
+{#                                        <th> Nb arbres parrainable </th>#}
+{#                                        <th> Nb arbres adoptable </th>#}
+                                        <th width="10%"> Actions </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for nursery in nurseries %}
+                                        <tr>
+                                            <td> {{ nursery.name }} </td>
+                                            <td> {{ nursery.postalCode }} </td>
+                                            <td> {{ nursery.trees.count }} </td>
+                                            <td> {{ nursery.sponsorTrees.count }} </td>
+                                            <td> {{ nursery.adoptableTrees.count }} </td>
+                                            <td class="td-actions">
+                                                <a href="{{ path('app_admin_nursery_edit', { id: nursery.id }) }}" rel="tooltip" class="btn btn-success btn-simple">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <button type="button" rel="tooltip" class="btn btn-danger btn-simple" data-toggle="modal" data-target="#confirmDelete{{ nursery.id }}">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        {{ modals.confirmDelete({
+                                            id: 'confirmDelete' ~ nursery.id,
+                                            pathDelete: path('app_admin_nursery_delete' , { id: nursery.id })
+                                        }) }}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        Liste des pépinières
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"> Aucune pépinière trouvée <br/>
+
+                        </h4>
+
+                        <a href="{{ path('app_admin_nursery_add') }}" type="button" class="btn btn-info">
+                            <i class="material-icons">add_circle</i> Ajouter une pépnière
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

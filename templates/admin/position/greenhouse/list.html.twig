@@ -1,0 +1,100 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des serres' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_greenhouse_list') }}"> Positions </a> </li>
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_greenhouse_list') }}"> Serres </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/position/_nav.html.twig' %}
+
+    {% if nbNursery %}
+        {% if greenhouses | length %}
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{ path('app_admin_greenhouse_add') }}" class="btn btn-info float-right">
+                        <i class="material-icons">add_circle</i> Ajouter une serre
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title "> Les serres </h4>
+                            <p class="card-category"> Liste des serres des pépinières </p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th> Pépinière </th>
+                                            <th> Nom </th>
+                                            <th> Aire </th>
+                                            <th> Nombre d'arbre </th>
+                                            <th> Nombre d'espèce </th>
+                                            <th width="10%"> Actions </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for greenHouse in greenhouses %}
+                                            <tr>
+                                                <td> {{ greenHouse.nursery }} </td>
+                                                <td> {{ greenHouse.name }} </td>
+                                                <td> {{ greenHouse.location }} </td>
+                                                <td> {{ greenHouse.trees | length }} </td>
+                                                <td> {{ greenHouse.species | length }} </td>
+                                                <td class="td-actions">
+                                                    <a href="{{ path('app_admin_greenhouse_detail', { id: greenHouse.id }) }}" rel="tooltip" class="btn btn-info btn-simple">
+                                                        <i class="material-icons">visibility</i>
+                                                    </a>
+                                                    <a href="{{ path('app_admin_greenhouse_edit', { id: greenHouse.id }) }}" rel="tooltip" class="btn btn-success btn-simple">
+                                                        <i class="material-icons">pageview</i>
+                                                    </a>
+                                                    <button type="button" rel="tooltip" class="btn btn-danger btn-simple" data-toggle="modal" data-target="#confirmDelete{{ greenHouse.id }}">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+
+                                            {{ modals.confirmDelete({
+                                                id: 'confirmDelete' ~ greenHouse.id,
+                                                pathDelete: path('app_admin_greenhouse_delete' , { id: greenHouse.id })
+                                            }) }}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            Liste des serres
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"> Aucune serre trouvée <br/>
+
+                            </h4>
+
+                            <a href="{{ path('app_admin_greenhouse_add') }}" type="button" class="btn btn-info">
+                                <i class="material-icons">add_circle</i> Ajouter une serre
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        {% include 'admin/position/_includes/_not_found_nursery.html.twig' %}
+    {% endif %}
+{% endblock %}

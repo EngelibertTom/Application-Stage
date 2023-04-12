@@ -1,0 +1,108 @@
+{% if tree is defined %}
+    {% import "admin/macros/modals.html.twig" as modals %}
+
+    <ul class="timeline timeline-simple mt-2" style="overflow: auto; height: 712px">
+        {% for historyTree in tree.historyTrees %}
+            <li class="timeline-inverted">
+                <div class="timeline-badge {{ historyTree.type.classColor }}">
+                    <i class="material-icons">{{ historyTree.type.icon }}</i>
+                </div>
+                <div class="timeline-panel mb-0">
+                    <div class="timeline-heading">
+                        <span class="badge badge-pill badge-{{ historyTree.type.classColor }}">
+                            {{ historyTree.type.title }}
+                        </span>
+
+                        {% if historyTree.visiblePublic %}
+                            <div class="pull-right" title="Notification publique" style="cursor: default"> <i class="material-icons">public</i> </div>
+                        {% endif %}
+                    </div>
+                    <div class="timeline-body">
+                        <p> {{ historyTree.content | raw }} </p>
+                        <hr>
+
+                        <div class="pull-left">
+                            <h6>
+                                <i class="ti-time"></i> {{ historyTree.date|date('d/m/Y') }}
+                                {% if historyTree.user %} par {{ historyTree.user }} {% endif %}
+                            </h6>
+                        </div>
+
+                        {% if is_granted('ROLE_MANAGER') %}
+                            <div class="dropdown pull-right">
+                                <button type="button" class="btn btn-round btn-info btn-sm" data-toggle="modal" data-target="#modalEdit{{ historyTree.id }}">
+                                    <i class="material-icons">edit</i>
+                                </button>
+                                <button type="button" class="btn btn-round btn-danger btn-sm" data-toggle="modal" data-target="#confirmDelete{{ historyTree.id }}">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </div>
+
+                            {{ modals.formController({
+                                id: 'modalEdit' ~ historyTree.id ,
+                                title: 'Modifier l\'historique',
+                                content: render(controller('App\\Controller\\Admin\\HistoryTreeController::editAction', { id: historyTree.id }))
+                            }) }}
+
+                            {{ modals.confirmDelete({
+                                id: 'confirmDelete' ~ historyTree.id,
+                                pathDelete: path('app_admin_historytree_delete' , { id: historyTree.id })
+                            }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        {#    <li class="timeline-inverted">#}
+        {#        <div class="timeline-badge info">#}
+        {#            <i class="material-icons">check_circle</i>#}
+        {#        </div>#}
+        {#        <div class="timeline-panel mb-0">#}
+        {#            <div class="timeline-heading">#}
+        {#                <span class="badge badge-pill badge-info"> Adopté </span>#}
+        {#            </div>#}
+        {#            <div class="timeline-body">#}
+        {#                <p><b>Michel Dupont</b> à adoptée l'arbre !</p>#}
+        {#                <hr>#}
+        {#            </div>#}
+        {#            <h6>#}
+        {#                <i class="ti-time"></i> 04/05/2021 par Michel Dupont#}
+        {#            </h6>#}
+        {#        </div>#}
+        {#    </li>#}
+        {#    <li class="timeline-inverted">#}
+        {#        <div class="timeline-badge badge-warning">#}
+        {#            <i class="material-icons">blur_circular</i>#}
+        {#        </div>#}
+        {#        <div class="timeline-panel mb-0">#}
+        {#            <div class="timeline-heading">#}
+        {#                <span class="badge badge-pill badge-warning"> Changement de pot </span>#}
+        {#            </div>#}
+        {#            <div class="timeline-body">#}
+        {#                <p> L'arbre vient d'être transférer du <b class="RS-270-R"> POT RS-270-R </b> vers un <b#}
+        {#                            class="RS-70-N"> POT RS-70-N </b></p>#}
+        {#                <hr>#}
+        {#            </div>#}
+        {#            <h6>#}
+        {#                <i class="ti-time"></i> 04/05/2021 par Michel Dupont#}
+        {#            </h6>#}
+        {#        </div>#}
+        {#    </li>#}
+        {#    <li class="timeline-inverted">#}
+        {#        <div class="timeline-badge badge-dark">#}
+        {#            <i class="material-icons">sick</i>#}
+        {#        </div>#}
+        {#        <div class="timeline-panel mb-0">#}
+        {#            <div class="timeline-heading">#}
+        {#                <span class="badge badge-pill badge-dark"> Mort </span>#}
+        {#            </div>#}
+        {#            <div class="timeline-body">#}
+        {#                L'arbre a été déclaré mort.#}
+        {#            </div>#}
+        {#            <h6>#}
+        {#                <i class="ti-time"></i> 04/05/2021 par Déborah Lurienne#}
+        {#            </h6>#}
+        {#        </div>#}
+        {#    </li>#}
+    </ul>
+{% endif %}

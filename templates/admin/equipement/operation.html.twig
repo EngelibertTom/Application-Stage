@@ -1,0 +1,164 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Hello EquipementController!{% endblock %}
+
+{% block body %}
+    {% include 'admin/equipement/_nav.html.twig' %}
+
+    <h1>Liste des entretiens</h1>
+    <a href="{{ path('app_admin_ajoutentretien') }}" >Ajouter un entretien</a>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title "> Les entretiens</h4>
+                    <p class="card-category"> Liste des entretiens </p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                            <tr>
+                                <th> Nom </th>
+                                <th> Urgence</th>
+                                <th> Date de réalisation </th>
+
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entretien in entretiens %}
+                                <tr>
+                                    <td>{{ entretien.nom }}</td>
+                                    <td> {{ entretien.urgence }}</td>
+                                    <td> {{ entretien.daterealisation|date('d-m-Y') }}</td>
+
+
+
+                                </tr>
+
+
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <h1>Liste des maintenances</h1>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title "> Les maintenances</h4>
+                    <p class="card-category"> Liste des maintenances </p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                            <tr>
+                                <th> Date</th>
+                                <th> Entretien</th>
+                                <th> Urgence </th>
+                                <th> Terminer </th>
+
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for maintenance in maintenances %}
+                                <tr>
+                                    <td>{{ maintenance.date|date('d-m-Y') }}</td>
+                                    <td> {{ maintenance.entretien}}</td>
+                                    <td> {{ maintenance.urgence }}</td>
+                                    <td>{{maintenance.terminer }}</td>
+
+
+
+                                </tr>
+
+
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <h1>Liste des prêts</h1>
+
+
+
+
+    <a href="{{ path('app_admin_ajoutpretequipement') }}">Ajouter un prêt d'équipement</a>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title "> Les prêts d'équipements </h4>
+                    <p class="card-category"> Liste des prêts équipements </p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                            <tr>
+                                <th> Equipement </th>
+                                <th> Utilisateur</th>
+                                <th>Commentaire</th>
+                                <th>Date</th>
+                                <th>Action</th>
+
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock body %}

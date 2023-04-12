@@ -1,0 +1,68 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des tables' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_greenhouse_list') }}"> Positions </a> </li>
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_culturetable_list') }}"> Tables </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/position/_nav.html.twig' %}
+
+    {% if nbGreenHouse %}
+        {% if nbCultureTable %}
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{ path('app_admin_culturetable_add') }}" class="btn btn-info float-right">
+                        <i class="material-icons">add_circle</i> Ajouter une table
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title "> Les tables </h4>
+                            <p class="card-category"> Liste des tables des serres </p>
+                        </div>
+                        <div class="card-body">
+                            <table id="tableCultureTable" class="table">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th> ID </th>
+                                        <th> Nom </th>
+                                        <th width="10%"> Actions </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            Liste des tables
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"> Aucune table trouvée <br/>
+
+                            </h4>
+
+                            <a href="{{ path('app_admin_culturetable_add') }}" type="button" class="btn btn-info">
+                                <i class="material-icons">add_circle</i> Ajouter une table
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        {% include 'admin/position/_includes/_not_found_greenhouse.html.twig' %}
+    {% endif %}
+{% endblock %}

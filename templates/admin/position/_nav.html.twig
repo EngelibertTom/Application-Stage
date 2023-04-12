@@ -1,0 +1,22 @@
+<ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_greenhouse_list' %} active {% endif %}"
+           href="{{ path('app_admin_greenhouse_list') }}"> Serres </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_culturetable_list' %} active {% endif %}"
+           href="{{ path('app_admin_culturetable_list') }}"> Tables </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_segment_list' %} active {% endif %}"
+           href="{{ path('app_admin_segment_list') }}"> Segments </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_tablecolumn_list' %} active {% endif %}"
+           href="{{ path('app_admin_tablecolumn_list') }}"> Colonnes </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_columnrow_list' %} active {% endif %}"
+           href="{{ path('app_admin_columnrow_list') }}"> Rangs </a>
+    </li>
+</ul>

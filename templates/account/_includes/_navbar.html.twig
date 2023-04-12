@@ -1,0 +1,12 @@
+<div class="col-md-2">
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.get('_route') == 'app_account_trees' %} active {% endif %}"
+               href="{{ path('app_account_trees') }}">Mes arbres</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.get('_route') == 'app_account_edit' %} active {% endif %}"
+               href="{{ path('app_account_edit') }}">Mon compte</a>
+        </li>
+    </ul>
+</div>

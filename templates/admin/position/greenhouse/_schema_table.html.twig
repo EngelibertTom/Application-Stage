@@ -1,0 +1,189 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="alert alert-info p-2 text-center">
+            <span style="font-size: 1.3em"> <b style="font-size: 1.3em">{{ spaceAvailable }}</b> places disponibles </span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="alert alert-info p-2 text-center">
+            <span style="font-size: 1.3em"> <b style="font-size: 1.3em">{{ trees | length }}</b> arbres </span>
+        </div>
+    </div>
+</div>
+
+<div class="schemaCultureTable">
+    {% for columnSquare in schemaCultureTable %}
+        <div class="column-square">
+            {% for groupSquare in columnSquare %}
+                <div class="group-square">
+                    {% for square in groupSquare %}
+                        <div class="square {{ square ? 'bg-success' : 'bg-danger' }}"></div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th> Arbres </th>
+            <th> Espèce </th>
+            <th> Pot </th>
+            <th> Position </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tree in trees %}
+            <tr>
+                <td> <a href="{{ path('app_tree_detail', { id: tree.id, show: true }) }}" class="font-weight-bold"> {{ tree }} </a> </td>
+                <td> {{ tree.species ? tree.species : '-' }} </td>
+                <td>
+                    {% if tree.potType  %}
+                        <span class="p-1 font-weight-bold" style="background-color: {{ tree.potType.color }}; color: #fff"> {{ tree.potType }} </span>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td> {{ tree.segment }} - {{ tree.tableColumn }} - {{ tree.columnRow }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{#<div class="column-square">#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#</div>#}
+{#<div class="column-square">#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#</div>#}
+{#<div class="column-square">#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#</div>#}
+{#<div class="column-square">#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#    <div class="group-square">#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-danger"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#        <div class="square bg-success"></div>#}
+{#    </div>#}
+{#</div>#}

@@ -1,0 +1,22 @@
+{% import "admin/macros/modals.html.twig" as modals %}
+
+<a href="{{ path('app_admin_owner_detail', { id: owner.id, show: true }) }}" rel="tooltip"
+   class="btn btn-info btn-simple">
+    <i class="material-icons">remove_red_eye</i>
+</a>
+
+{% if is_granted('ROLE_MANAGER') %}
+    <a href="{{ path('app_admin_owner_edit', { id: owner.id }) }}"
+       rel="tooltip" class="btn btn-success btn-simple">
+        <i class="material-icons">edit</i>
+    </a>
+    <button type="button" rel="tooltip" class="btn btn-danger btn-simple"
+            data-toggle="modal" data-target="#confirmDelete{{ owner.id }}">
+        <i class="material-icons">close</i>
+    </button>
+{% endif %}
+
+{{ modals.confirmDelete({
+    id: 'confirmDelete' ~ owner.id,
+    pathDelete: path('app_admin_owner_delete' , { id: owner.id })
+}) }}

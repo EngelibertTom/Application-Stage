@@ -1,0 +1,42 @@
+{% set loopOnTheBack = 29 %}
+{% set perPage = 30 %}
+{% import _self as macro %}
+
+{% for key, qrCode in qrCodes %}
+    <div style="width: 4.44cm; height: 4.7cm; display: inline-block; margin: 0 0 1cm 0.49rem; position: relative">
+        <div style="position: absolute; top: 4rem; text-align: center">
+            <img style="width: 90%;" src="{{ absolute_url(asset(qrCode.path)) }}">
+            <p style="margin: 0; font-size: 0.8em"> Ref #{{ qrCode.id }} </p>
+        </div>
+    </div>
+
+    {% if key == loopOnTheBack %}
+        {% for i in 1..perPage %}
+            {{ macro.verso() }}
+        {% endfor %}
+
+        {% set loopOnTheBack = loopOnTheBack + 30 %}
+    {% elseif loop.last %}
+        {% if key < loopOnTheBack %}
+            {% set rest = loopOnTheBack - key %}
+
+            {% for i in 1..rest %}
+                <div style="width: 4.44cm; height: 4.7cm; display: inline-block; margin: 0 0 1cm 0"></div>
+            {% endfor %}
+
+            {% set perPage = (qrCodes | length) - (loopOnTheBack - 29) %}
+
+            {% for i in 1..perPage %}
+                {{ macro.verso() }}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{% macro verso() %}
+    <div style="width: 4.44cm; height: 4.7cm; display: inline-block; margin: 0 0.74rem 1cm 0; position: relative; float:right">
+        <div style="position: absolute; top: 5.74rem; left: 2rem; text-align: center">
+            <img style="width: 100%;" src="{{ absolute_url(asset('img/verso_qrcode.jpg')) }}">
+        </div>
+    </div>
+{% endmacro %}

@@ -1,0 +1,133 @@
+{% set isPageData = app.request.get('_route') == 'app_admin_species_list' or
+                    app.request.get('_route') == 'app_admin_species_add' %}
+
+{% set isPageTree = app.request.get('_route') == 'app_admin_tree_list' or
+                    app.request.get('_route') == 'app_admin_tree_add' or
+                    app.request.get('_route') == 'app_admin_tree_edit' %}
+
+{% set isPageLot = app.request.get('_route') == 'app_admin_lot_list' or
+                   app.request.get('_route') == 'app_admin_lot_add' or
+                   app.request.get('_route') == 'app_admin_lot_edit' %}
+
+{% set isPageNursery = app.request.get('_route') == 'app_admin_nursery_list' or
+                       app.request.get('_route') == 'app_admin_nursery_add' or
+                       app.request.get('_route') == 'app_admin_nursery_edit' %}
+
+{% set isPageTreeWork = app.request.get('_route') == 'app_admin_tree_work_list' or
+                        app.request.get('_route') == 'app_admin_tree_work_add' or
+                        app.request.get('_route') == 'app_admin_tree_work_edit' %}
+
+{% set isPageObservation = app.request.get('_route') == 'app_admin_observation_list' or
+                           app.request.get('_route') == 'app_admin_observation_add' or
+                           app.request.get('_route') == 'app_admin_observation_edit' %}
+
+{% set isPageGreenHouse = app.request.get('_route') == 'app_admin_greenhouse_list' or
+                          app.request.get('_route') == 'app_admin_greenhouse_add' or
+                          app.request.get('_route') == 'app_admin_greenhouse_edit' or
+                          app.request.get('_route') == 'app_admin_culturetable_list' or
+                          app.request.get('_route') == 'app_admin_culturetable_add' or
+                          app.request.get('_route') == 'app_admin_culturetable_edit' or
+                          app.request.get('_route') == 'app_admin_segment_list' or
+                          app.request.get('_route') == 'app_admin_segment_add' or
+                          app.request.get('_route') == 'app_admin_segment_edit' or
+                          app.request.get('_route') == 'app_admin_columnrow_list' or
+                          app.request.get('_route') == 'app_admin_columnrow_add' or
+                          app.request.get('_route') == 'app_admin_columnrow_edit' or
+                          app.request.get('_route') == 'app_admin_tablecolumn_list' or
+                          app.request.get('_route') == 'app_admin_tablecolumn_add' or
+                          app.request.get('_route') == 'app_admin_tablecolumn_edit' %}
+
+{% set isPageUser = app.request.get('_route') == 'app_admin_user_list' or
+                    app.request.get('_route') == 'app_admin_user_add' or
+                    app.request.get('_route') == 'app_admin_user_edit' %}
+
+
+{% set isPageOwner = app.request.get('_route') == 'app_admin_owner_list' or
+                    app.request.get('_route') == 'app_admin_owner_add' or
+                    app.request.get('_route') == 'app_admin_owner_edit' %}
+
+{% set isPageEquipement = app.request.get('_route') =='app_admin_equipement' %}
+
+<div class="sidebar-wrapper">
+    <ul class="nav">
+        <li class="nav-item {% if app.request.get('_route') == 'app_admin_dashboard' %} active {% endif %}">
+            <a class="nav-link" href="{{ path('app_admin_dashboard') }}">
+                <i class="material-icons">dashboard</i>
+                <p> {{ 'Tableau de bord'|trans }} </p>
+            </a>
+        </li>
+        <li class="nav-item {% if isPageOwner %} active {% endif %}">
+            <a class="nav-link" href="{{ path('app_admin_owner_list') }}">
+                <i class="fa fa-male"></i>
+                <p> Adoptants </p>
+            </a>
+        </li>
+        <li class="nav-item {% if isPageTree %} active {% endif %}">
+            <a class="nav-link" href="{{ path('app_admin_tree_list') }}">
+                <i class="fa fa-tree"></i>
+                <p> {{ 'Arbres'|trans }} </p>
+            </a>
+        </li>
+        <li class="nav-item {% if isPageLot %} active {% endif %}">
+            <a class="nav-link" href="{{ path('app_admin_lot_list') }}">
+                <i class="fa fa-pagelines"></i>
+                <p> {{ 'Lots'|trans }} </p>
+            </a>
+        </li>
+        {% if is_granted('ROLE_MANAGER') %}
+            <li class="nav-item {% if isPageNursery %} active {% endif %}">
+                <a class="nav-link" href="{{ path('app_admin_nursery_list') }}">
+                    <i class="material-icons">house</i>
+                    <p> {{ 'Pépinières'|trans }} </p>
+                </a>
+            </li>
+        {% endif %}
+        <li class="nav-item {% if isPageTreeWork %} active {% endif %}">
+            <a class="nav-link" href="{{ path('app_admin_tree_work_list') }}">
+                <i class="fa fa-wrench"></i>
+                <p> {{ 'travaux'|trans }} </p>
+            </a>
+        </li>
+        <li class="nav-item {% if isPageObservation %} active {% endif %}">
+            <a class="nav-link" href="{{ path('app_admin_observation_list') }}">
+                <i class="material-icons">visibility</i>
+                <p> Observations </p>
+            </a>
+        </li>
+        {% if is_granted('ROLE_MANAGER') %}
+            <li class="nav-item {% if isPageGreenHouse %} active {% endif %}">
+                <a class="nav-link" href="{{ path('app_admin_greenhouse_list') }}">
+                    <i class="fa fa-table"></i>
+                    <p> {{ 'Serres'|trans }} </p>
+                </a>
+            </li>
+        {% endif %}
+        <li class="nav-item {% if isPageData %} active {% endif %}">
+            <a class="nav-link" href="{{ path('app_admin_species_list') }}">
+                <i class="fa fa-database"></i>
+                <p> {{ 'Données'|trans }} </p>
+            </a>
+        </li>
+        {% if is_granted('ROLE_MANAGER') %}
+            <li class="nav-item {% if isPageUser %} active {% endif %}">
+                <a class="nav-link" href="{{ path('app_admin_user_list') }}">
+                    <i class="material-icons">supervisor_account</i>
+                    <p> {{ 'Utilisateurs'|trans }} </p>
+                </a>
+            </li>
+
+            <li class="nav-item {% if isPageEquipement %} active {% endif %}">
+                <a class="nav-link" href="{{ path('app_admin_equipement2') }}">
+                    <i class="fa fa-gavel" aria-hidden="true"></i>
+                    <p> Équipements </p>
+                </a>
+            </li>
+        {% endif %}
+    {#        <li class="nav-item">#}
+    {#            <a class="nav-link" href="#">#}
+    {#                <i class="fa fa-gears"></i>#}
+    {#                <p> {{ 'Paramètres'|trans }}</p>#}
+    {#            </a>#}
+    {#        </li>#}
+    </ul>
+</div>

@@ -1,0 +1,12 @@
+<p>
+    Bonjour {{ user }},<br/><br/>
+
+    Une nouvelle espèce "<b>{{ species }}</b>" vient d'être rajoutée dans l'application de la pépinière.<br>
+    Veuillez la vérifier et la valider en cliquant sur ce lien: <br/><br/>
+
+    <a style="padding: 10px; background-color: #4a4642; color: #fff; margin-top: 1em" href="{{ absolute_url(path('app_admin_species_edit', { id: species.id })) }}">
+        Vérifier et valider !
+    </a> <br/><br/>
+
+    À bientôt sur l'application.
+</p>

@@ -1,0 +1,92 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des travaux' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_tree_work_list') }}"> Travaux </a></li>
+{% endblock %}
+
+{% block body %}
+
+    {% include 'admin/treeWork/_nav.html.twig' %}
+
+    {% if nbTree %}
+        {% if nbWorks %}
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{ path('app_admin_tree_work_add') }}" class="btn btn-info float-right">
+                        <i class="material-icons">add_circle</i> Ajouter un travaux
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title "> Les travaux </h4>
+                            <p class="card-category"> Liste des travaux réalisés sur les arbres </p>
+                        </div>
+                        <div class="card-body">
+                            <table id="tableTreeWork" class="table">
+                                <thead class=" text-primary">
+                                <tr>
+                                    <th> Date </th>
+                                    <th> Arbre </th>
+                                    <th> Travaux </th>
+                                    <th> Espèce </th>
+                                    <th> Serre </th>
+                                    <th> Opérateur </th>
+                                    <th width="10%"> Actions </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            Liste des travaux
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"> Aucun travaux trouvé <br/>
+
+                            </h4>
+
+                            <a href="{{ path('app_admin_tree_work_add') }}" type="button" class="btn btn-info">
+                                <i class="material-icons">add_circle</i> Ajouter un travaux
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        Aucun arbre de renseignée !
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"> Veuillez d'abord renseigner un arbre <br/>
+
+                        </h4>
+
+                        <a href="{{ path('app_admin_tree_add') }}" type="button" class="btn btn-info">
+                            <i class="material-icons">add_circle</i> Ajouter un arbre
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

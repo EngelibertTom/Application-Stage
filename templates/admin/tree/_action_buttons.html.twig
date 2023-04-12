@@ -1,0 +1,25 @@
+{% import "admin/macros/modals.html.twig" as modals %}
+
+<a href="{{ tree.qrCode }}" download="qrCode-tree-{{ tree.id }}.png"
+   rel="tooltip" class="btn btn-dark btn-simple">
+    <i class="material-icons">qr_code</i>
+</a>
+<a href="{{ path('app_admin_tree_detail', { id: tree.id }) }}" rel="tooltip" class="btn btn-info btn-simple">
+    <i class="material-icons">pageview</i>
+</a>
+<a href="{{ path('app_admin_tree_edit', { id: tree.id }) }}"
+   rel="tooltip" class="btn btn-success btn-simple">
+    <i class="material-icons">edit</i>
+</a>
+
+{% if is_granted('ROLE_MANAGER') %}
+    <button type="button" rel="tooltip" class="btn btn-danger btn-simple"
+            data-toggle="modal" data-target="#confirmDelete{{ tree.id }}">
+        <i class="material-icons">close</i>
+    </button>
+{% endif %}
+
+{{ modals.confirmDelete({
+    id: 'confirmDelete' ~ tree.id,
+    pathDelete: path('app_admin_tree_delete' , { id: tree.id })
+}) }}

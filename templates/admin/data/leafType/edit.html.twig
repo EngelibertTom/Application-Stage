@@ -1,0 +1,44 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_species_list') }}"> Données </a></li>
+    <li class="breadcrumb-item"><a href="{{ path('app_admin_leaftype_list') }}"> Types de feuille </a></li>
+    <li class="active breadcrumb-item" aria-current="page"> Nouveau </li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title">
+                        <i class="material-icons">create</i>
+                        Ajouter un nouveau type de feuille
+                    </h4>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <a href="{{ path('app_admin_leaftype_list') }}">
+                                <i class="material-icons">keyboard_backspace</i> Retour à la liste
+                            </a>
+                        </div>
+                    </div>
+
+                    {{ form_start(form) }}
+
+
+                    {{ form_end(form) }}
+
+                    <div class="col-md-12 mt-4">
+                        <a href="{{ path('app_admin_leaftype_list') }}">
+                            <i class="material-icons">keyboard_backspace</i> Retour à la liste
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

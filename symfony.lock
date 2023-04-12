@@ -1,0 +1,17 @@
+{
+    "knplabs/knp-components": {
+        "version": "v3.0.2"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.4.2"
+    },
+    "php": {
+        "version": "7.4"
+    },
+    "symfony/password-hasher": {
+        "version": "v5.3.7"
+    },
+    "symfony/polyfill-php81": {
+        "version": "v1.23.0"
+    }
+}

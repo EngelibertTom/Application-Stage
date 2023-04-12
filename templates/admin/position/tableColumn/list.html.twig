@@ -1,0 +1,70 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des colonnes' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_greenhouse_list') }}"> Positions </a> </li>
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_tablecolumn_list') }}"> Colonnes </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/position/_nav.html.twig' %}
+
+    {% if nbSegment %}
+        {% if nbTableColumn %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ path('app_admin_tablecolumn_add') }}" class="btn btn-info float-right">
+                            <i class="material-icons">add_circle</i> Ajouter une colonne
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title "> Les colonnes </h4>
+                            <p class="card-category"> Liste des colonnes des tables de culture </p>
+                        </div>
+                        <div class="card-body">
+                            <table id="tableColumn" class="table">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th> ID </th>
+                                        <th> Nom </th>
+                                        <th width="10%"> Actions </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            Liste des colonnes
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"> Aucune colonne trouvée <br/>
+
+                            </h4>
+
+                            <a href="{{ path('app_admin_tablecolumn_add') }}" type="button" class="btn btn-info">
+                                <i class="material-icons">add_circle</i> Ajouter une colonne
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        {% include 'admin/position/_includes/_not_found_culture_table.html.twig' %}
+    {% endif %}
+{% endblock %}

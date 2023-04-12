@@ -1,0 +1,298 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_tree_list') }}"> Arbres </a></li>
+    <li class="active breadcrumb-item" aria-current="page"> Détail de l'arbre {{ tree }}</li>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon card-header-info">
+                    <div class="card-icon">
+                        <i class="material-icons">park</i>
+                    </div>
+                    <h4 class="card-title">
+                        Détail de l'arbre <b>{{ tree }} {{ tree.species }}</b>
+
+                        <a href="{{ path('app_tree_detail', { id: tree.id, show: true }) }}" target="_blank" class="btn btn-info btn-light pull-right p-2 ml-2">
+                            <i class="material-icons">public</i>
+                        </a>
+
+                        <a href="{{ path('app_admin_tree_list') }}" class="btn btn-info btn-small pull-right p-2  ml-2">
+                            <i class="material-icons">list</i>
+                        </a>
+
+                        <a href="{{ path('app_admin_tree_edit', { id: tree.id }) }}"
+                           class="btn btn-info btn-small pull-right p-2">
+                            <i class="material-icons">edit</i>
+                        </a>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="col-md-3 cards">
+                                <div class="card card-pricing card-raised card-header-info p-0 mt-4">
+                                    <div class="card-body">
+                                        <h3 class="card-title mt-0"><i class="material-icons">qr_code_2</i></h3>
+                                        <h6 class="card-title m-0"> Référence {{ tree }} </h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if tree.greenhouse %}
+                                <div class="col-md-3 cards">
+                                    <a href="{{ path('app_admin_greenhouse_detail', { id: tree.greenhouse.id }) }}">
+                                        <div class="card card-pricing card-raised p-0 card-header-success mt-4">
+                                            <div class="card-body">
+                                                <h3 class="card-title mt-0"><i class="material-icons">other_houses</i></h3>
+                                                <h6 class="card-title m-0"> Serre {{ tree.greenhouse }} </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                </div>
+                            {% endif %}
+
+                            {% if tree.potType %}
+                                <div class="col-md-3 cards">
+                                    <div class="card card-pricing card-raised p-0 card-header-info mt-4"
+                                         style="background: {{ tree.potType.color }}">
+                                        <div class="card-body">
+                                            <h3 class="card-title mt-0"><i class="material-icons">blur_circular</i></h3>
+                                            <h6 class="card-title m-0"> Pot {{ tree.potType }} </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if tree.status %}
+                                <div class="col-md-3 cards">
+                                    <div class="card card-pricing card-raised p-0 card-header-rose mt-4">
+                                        <div class="card-body">
+                                            <h3 class="card-title mt-0"><i class="material-icons">push_pin</i></h3>
+                                            <h6 class="card-title m-0"> {{ tree | status | raw }} </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="owl-carousel owl-theme">
+                {% for picture in tree.treePictures %}
+                    {% if picture.pathOriginal %}
+                        <div>
+                            <a class="fancybox" href="{{ asset(picture.pathOriginal) }}" rel="group1" style="cursor: zoom-in">
+                                <img src="{{ asset(picture.path) }}" alt=""/>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+{#            <div class="top-content">#}
+{#                <div class="container-fluid">#}
+{#                    <div id="carousel-example" class="carousel slide" data-ride="carousel">#}
+{#                        <div class="carousel-inner row w-100 mx-auto" role="listbox">#}
+{#                            {% for picture in tree.treePictures %}#}
+{#                                <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 {% if loop.first %}active{% endif %}">#}
+{#                                    <a href="#" id="test">#}
+{#                                    <img src="{{ asset(picture.path) }}" class="img-fluid mx-auto d-block" alt="img1">#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                        <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">#}
+{#                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
+{#                            <span class="sr-only">Previous</span>#}
+{#                        </a>#}
+{#                        <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">#}
+{#                            <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
+{#                            <span class="sr-only">Next</span>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 col-lg-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-icon card-header-info">
+                            <div class="card-icon">
+                                <i class="material-icons">info</i>
+                            </div>
+                            <h4 class="card-title">
+                                Détail
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6">
+                                    <p>
+                                        <b> Statut </b>: <br/>
+                                        <b> Espèce </b>: <br/>
+                                        <b> Serre </b>: <br/>
+                                        <b> Année de travail </b>: <br/>
+                                        <b> Lot </b>: <br/>
+                                        <b> Pot </b>: <br/>
+                                        <b> Date d'entrée </b>: <br/>
+                                        <b> Âge </b>: <br/>
+                                        <b> Style potentiel </b>: <br/>
+                                        <b> Hauteur </b>: <br/>
+                                        <b> Diametre nébarie </b>: <br/>
+                                        <b> Diametre tronc </b>:
+                                    </p>
+                                </div>
+                                <div class="col-md-8 col-sm-6">
+                                    <p>
+                                        {{ tree | status }} {{ tree.adoption ? '(' ~ tree.adoption.owner ~ ')' : '' }} <br/>
+                                        {{ tree.species ? tree.species : '-' }} <br/>
+                                        {{ tree.greenhouse }} {{ tree.greenhouse ? '(' ~ tree.greenhouse.location ~ ')' : '' }}<br/>
+                                        {{ tree.workingYear == 1 ? "-5 ans" : tree.workingYear == 2 ?  tree.workingYear == 3 ? '5-10 ans' : '-' }} <br/>
+                                        {{ tree.lot }} <br/>
+                                        {{ tree.potType }} <br/>
+                                        {{ tree.lot ? tree.lot.entryDate | date('d/m/Y') : '-' }} <br/>
+                                        {{ tree.age ? tree.age ~ ' ans' : '-' }} <br/>
+                                        {{ tree.potentialStyles.count ? tree.potentialStylesStr : '-' }}<br/>
+                                        {{ tree.height ? tree.height ~ ' cm' : '-' }} <br/>
+                                        {{ tree.nebariDiameter ? tree.nebariDiameter ~ ' cm' : '-' }} <br/>
+                                        {{ tree.trunkDiameter ? tree.trunkDiameter ~ ' cm' : '-' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card mt-2">
+                        <div class="card-header card-header-icon card-header-info">
+                            <div class="card-icon">
+                                <i class="material-icons">build</i>
+                            </div>
+                            <h4 class="card-title">
+                                Travaux
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            {% if tree.works.empty %}
+                                <div class="alert alert-warning alert-with-icon mt-2" data-notify="container">
+                                    <i class="material-icons text-warning" data-notify="icon">notifications</i>
+                                    <span data-notify="message"> Aucun traveaux réalisé. </span>
+                                </div>
+                            {% else %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped tableDefault">
+                                        <thead>
+                                        <tr>
+                                            <th> Date </th>
+                                            <th> Travaux </th>
+                                            <th> Opérateur </th>
+                                            <th> Commentaire </th>
+                                            <th> Fini </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for work in tree.works %}
+                                            <tr>
+                                                <td> {{ work.date | date('d/m/Y') }} </td>
+                                                <td> {{ work.work }} </td>
+                                                <td> {{ work.user }} </td>
+                                                <td> {{ work.comment }} </td>
+                                                <td>
+                                                    {% if work.todo %}
+                                                        <i class="material-icons text-success">thumb_up_alt</i>
+                                                    {% else %}
+                                                        <i class="material-icons text-danger">thumb_down_alt</i>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card mt-2">
+                        <div class="card-header card-header-icon card-header-info">
+                            <div class="card-icon">
+                                <i class="material-icons">remove_red_eye</i>
+                            </div>
+                            <h4 class="card-title">
+                                Observations
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            {% if tree.works.empty %}
+                                <div class="alert alert-warning alert-with-icon mt-2" data-notify="container">
+                                    <i class="material-icons text-warning" data-notify="icon">notifications</i>
+                                    <span data-notify="message"> Aucune observation faite. </span>
+                                </div>
+                            {% else %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped tableDefault">
+                                        <thead>
+                                        <tr>
+                                            <th> Date </th>
+                                            <th> Membre </th>
+                                            <th> Observation </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for observation in tree.observations %}
+                                            <tr>
+                                                <td> {{ observation.date | date('d/m/Y') }} </td>
+                                                <td> {{ observation.user }} </td>
+                                                <td> {{ observation.comment }} </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 col-lg-6">
+            {% if is_granted('ROLE_MANAGER') %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-info pull-right btn-sm" data-toggle="modal" data-target="#modalAddHistoryTree">
+                            <i class="material-icons">add_circle</i> Ajouter un historique
+                        </button>
+                    </div>
+
+                    {{ modals.formController({
+                        id: 'modalAddHistoryTree',
+                        title: 'Ajouter un historique',
+                        content: render(controller('App\\Controller\\Admin\\HistoryTreeController::addAction', { id: tree.id }))
+                    }) }}
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    {% include 'tree/includes/_history.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

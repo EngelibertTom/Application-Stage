@@ -1,0 +1,176 @@
+{% extends 'admin/base.html.twig' %}
+{% set title = 'Tableau de bord'|trans %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="fa fa-male"></i>
+                    </div>
+                    <p class="card-category"> Adoptants </p>
+                    <h3 class="card-title"> {{ nbOwner }}
+                        {#<small> GB </small>#}
+                    </h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">list</i>
+                        <a href="{{ path('app_admin_owner_list') }}"
+                           class="text-muted"> Liste des adoptants </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                    <div class="card-icon">
+                        <i class="fa fa-tree"></i>
+                    </div>
+                    <p class="card-category"> Arbres </p>
+                    <h3 class="card-title"> {{ nbTree }}
+                        {#<small> GB </small>#}
+                    </h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">list</i>
+                        <a href="{{ path('app_admin_tree_list') }}"
+                           class="text-muted"> Liste des arbres </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">supervisor_account</i>
+                    </div>
+                    <p class="card-category"> Utilisateurs </p>
+                    <h3 class="card-title"> {{ nbUser }} </h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">list</i>
+                        <a href="{{ path('app_admin_user_list') }}"
+                           class="text-muted"> Liste des utilisateurs </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">house</i>
+                    </div>
+                    <p class="card-category"> Pépinières </p>
+                    <h3 class="card-title"> {{ nbNursery }} </h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">list</i>
+                        <a href="{{ path('app_admin_nursery_list') }}"
+                           class="text-muted"> Liste des pépinières </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#        <div class="col-lg-3 col-md-6 col-sm-6">#}
+        {#            <div class="card card-stats">#}
+        {#                <div class="card-header card-header-danger card-header-icon">#}
+        {#                    <div class="card-icon">#}
+        {#                        <i class="fa fa-table"></i>#}
+        {#                    </div>#}
+        {#                    <p class="card-category"> {{ 'Serres'|trans }}</p>#}
+        {#                    <h3 class="card-title"> {{ nbGreenhouse }} </h3>#}
+        {#                </div>#}
+        {#                <div class="card-footer">#}
+        {#                    <div class="stats">#}
+        {#                        <i class="material-icons">list</i>#}
+        {#                        <a href="{{ path('app_admin_greenhouse_list') }}" class="text-muted"> {{ 'Liste des serres'|trans }} </a>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-chart">
+                <div class="card-header card-header-info">
+                    <div class="ct-chart" id="adoptionChart"></div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title"> Statistique des adoptions </h4>
+                    <p class="card-category">
+                        {% if annualAdoptionStat.percentageChange >= 0 %}
+                        <span class="text-success">
+                            <i class="fa fa-long-arrow-up"></i> {{ annualAdoptionStat.percentageChange }}%
+                        </span>
+                        {% else %}
+                            <span class="text-danger">
+                            <i class="fa fa-long-arrow-down"></i> {{ annualAdoptionStat.percentageChange }}%
+                        </span>
+                        {% endif %}
+
+                        depuis l'année dernière
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card card-chart">
+                <div class="card-header card-header-danger">
+                    <div class="ct-chart" id="deadTreeChart"></div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title"> Statistique des arbres morts </h4>
+                    <p class="card-category">
+                        {% if annualDeadTreeStat.percentageChange >= 0 %}
+                            <span class="text-success">
+                            <i class="fa fa-long-arrow-up"></i> {{ annualDeadTreeStat.percentageChange }}%
+                        </span>
+                        {% else %}
+                            <span class="text-danger">
+                            <i class="fa fa-long-arrow-down"></i> {{ annualDeadTreeStat.percentageChange }}%
+                        </span>
+                        {% endif %}
+
+                        depuis l'année dernière
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-chart">
+                <div class="card-header card-header-info">
+                    <div class="ct-chart ct-square" id="statusTreeChart" style="height: 300px;"></div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title"> Statistique des statuts des arbres </h4>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        let dataAdoption = JSON.parse('{{ annualAdoptionStat|json_encode()|escape('js')|raw }}');
+        let dataDeadTree = JSON.parse('{{ annualDeadTreeStat|json_encode()|escape('js')|raw }}');
+        let dataStatusTree = JSON.parse('{{ statusTreeStat|json_encode()|escape('js')|raw }}');
+    </script>
+{% endblock %}

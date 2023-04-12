@@ -1,0 +1,103 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des lots' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_lot_list') }}"> Lots </a></li>
+{% endblock %}
+
+{% block body %}
+
+    {% if nbNursery %}
+        {% if nbLot %}
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="{{ path('app_admin_lot_add') }}" class="btn btn-info float-right">
+                        <i class="material-icons">add_circle</i> Ajouter un lot
+                    </a>
+                    <button type="button" class="btn btn-dark float-right" data-toggle="modal" data-target="#modalGenerateQrCode">
+                        <i class="material-icons">qr_code</i> Générer des QrCodes
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title "> Les lots </h4>
+                            <p class="card-category"> Liste des lots de l'association </p>
+                        </div>
+                        <div class="card-body">
+                            <table id="tableLot" class="table">
+                                <thead class=" text-primary">
+                                <tr>
+                                    <th> <input type="checkbox" id="select_all" class="dt-active"> </th>
+                                    <th> #Ref </th>
+                                    <th> Nom </th>
+                                    <th> Provenance </th>
+                                    <th> Code postal </th>
+                                    <th> Ville </th>
+                                    <th width="10%"> Actions </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            Liste des lots
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"> Aucun lot trouvé <br/>
+
+                            </h4>
+
+                            <a href="{{ path('app_admin_lot_add') }}" type="button" class="btn btn-info">
+                                <i class="material-icons">add_circle</i> Ajouter un lot
+                            </a>
+                            OU
+                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modalGenerateQrCode">
+                                <i class="material-icons">qr_code</i> Générer des QrCodes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        Aucune pépinière de renseignée !
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"> Veuillez d'abord renseigner une pépinière <br/>
+
+                        </h4>
+
+                        <a href="{{ path('app_admin_nursery_add') }}" type="button" class="btn btn-info">
+                            <i class="material-icons">add_circle</i> Ajouter une pépinière
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {{ modals.formController({
+        id: 'modalGenerateQrCode',
+        title: 'Générer des QrCodes',
+        content: render(controller('App\\Controller\\Admin\\LotController::generateQrCodesAction'))
+    }) }}
+{% endblock %}

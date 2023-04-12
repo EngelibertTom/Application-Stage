@@ -1,0 +1,70 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Hello EquipementController!{% endblock %}
+
+{% block body %}
+    {% include 'admin/equipement/_nav.html.twig' %}
+
+    <h1>Les prêts d'équipements</h1>
+    <a href="{{ path('app_admin_ajoutpretequipement') }}">Ajouter un prêt d'équipement</a>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title "> Les prêts d'équipements </h4>
+                    <p class="card-category"> Liste des prêts équipements </p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                            <tr>
+                                <th> Equipement </th>
+                                <th> Utilisateur</th>
+                                <th>Commentaire</th>
+                                <th>Date</th>
+                                <th>Action</th>
+
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for donnee in donnees %}
+                                <tr>
+                                    <td>{{ donnee.equipement }}</td>
+                                     <td>{{ donnee.utilisateur }}</td>
+                                    <td>{{ donnee.commentaire}}</td>
+                                    <td>{{ donnee.date|date('d-m-Y')}}</td>
+                                    <th class="td-actions"> <a href="{{ path('app_admin_editpret', { id: donnee.id }) }}"
+                                            rel="tooltip" class="btn btn-success btn-simple">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+
+                                        <a href="{{ path('app_admin_deletepret', { id: donnee.id }) }}"
+                                           rel="tooltip" class="btn btn-danger btn-simple">
+                                            <i class="material-icons">close</i>
+                                        </a>
+                                    </th>
+                                </tr>
+
+
+
+
+
+
+
+
+
+
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

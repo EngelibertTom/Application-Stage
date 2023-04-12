@@ -1,0 +1,72 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_owner_list') }}"> Adoptants </a></li>
+    <li class="active breadcrumb-item" aria-current="page"> Détails </li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title">Details de l'adoptant</h4>
+                    <p class="card-category"> Details des arbres de {{ owner }}</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <a href="{{ path('app_admin_owner_list') }}">
+                                <i class="material-icons">keyboard_backspace</i> Retour à la liste
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <p><b>Nom : </b>{{ owner.name ? owner.name}}<br/> <b>Email : </b>{{ owner.email ? owner.email}}<br/> <b>Téléphone : </b>{{ owner.phone ? owner.phone}}<br/></p>
+                        </div>
+                    </div>
+
+                    {% if not owner.adoptions.isEmpty %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th> Date </th>
+                                    <th> Arbre </th>
+                                    <th> Espèce </th>
+                                    <th> Action </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for adoption in owner.adoptions %}
+                                    <tr>
+                                        <td> {{ adoption.date | date('d/m/Y') }} </td>
+                                        <td> <a href="{{ path('app_admin_tree_edit', { id: adoption.tree.id }) }}"> {{ adoption.tree.id }} </a></td>
+                                        <td> {{ adoption.tree.species }} </td>
+                                        <td class="td-actions">
+                                            <button type="button" rel="tooltip" class="btn btn-danger btn-simple" data-toggle="modal" data-target="#confirmDelete{{ adoption.id }}">
+                                                <i class="material-icons">close</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    {{ modals.confirmDelete({
+                                        id: 'confirmDelete' ~ adoption.id,
+                                        pathDelete: path('app_admin_adoption_delete' , { id: adoption.id })
+                                    }) }}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                        <div class="alert alert-primary" role="alert">
+                            Aucun arbre adopté
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

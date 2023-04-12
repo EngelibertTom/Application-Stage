@@ -1,0 +1,83 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des travaux' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_species_list') }}"> Données </a> </li>
+    <li class="active breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_work_list') }}"> Travaux </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/data/_nav.html.twig' %}
+
+    {% if works | length %}
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ path('app_admin_work_add') }}" class="btn btn-info float-right">
+                    <i class="material-icons">add_circle</i> Ajouter un travaux
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title "> Les travaux </h4>
+                        <p class="card-category"> Les travaux qu'un peu faire sur un arbre </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th> Nom </th>
+                                        <th width="10%"> Actions </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for work in works %}
+                                        <tr>
+                                            <td> {{ work.name }} </td>
+                                            <td class="td-actions">
+                                                <a href="{{ path('app_admin_work_edit', { id: work.id }) }}" rel="tooltip" class="btn btn-success btn-simple">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <button type="button" rel="tooltip" class="btn btn-danger btn-simple" data-toggle="modal" data-target="#confirmDelete{{ work.id }}">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        {{ modals.confirmDelete({
+                                            id: 'confirmDelete' ~ work.id,
+                                            pathDelete: path('app_admin_work_delete' , { id: work.id })
+                                        }) }}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        Liste des travaux
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"> Aucun travaux </h4>
+
+                        <a href="{{ path('app_admin_work_add') }}" type="button" class="btn btn-info">
+                            <i class="material-icons">add_circle</i> Ajouter un travaux
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

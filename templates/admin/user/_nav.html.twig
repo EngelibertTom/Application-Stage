@@ -1,0 +1,11 @@
+<ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_user_list' and active %} active {% endif %}"
+           href="{{ path('app_admin_user_list') }}"> Actif </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_user_list' and not active %} active {% endif %}"
+           href="{{ path('app_admin_user_list', { active: 0 }) }}"> Désactivé </a>
+    </li>
+</ul>

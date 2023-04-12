@@ -1,0 +1,68 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_tree_work_list') }}"> Travaux </a></li>
+    <li class="active breadcrumb-item" aria-current="page"> Nouveau </li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class='col-sm-6'>
+                <input type='text' class="form-control" id='datetimepicker4' />
+            </div>
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title">
+                        <i class="material-icons">create</i>
+                        Ajouter un nouveau travaux
+                    </h4>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <a href="{{ path('app_admin_tree_work_list') }}">
+                                <i class="material-icons">keyboard_backspace</i> Retour à la liste
+                            </a>
+                        </div>
+                    </div>
+
+                    {{ form_start(form) }}
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            {{ form_row(form.todo) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-2">
+                            {{ form_row(form.date) }}
+                        </div>
+                        {% if is_granted('ROLE_MANAGER') %}
+                            <div class="col-md-3">
+                                {{ form_row(form.user) }}
+                            </div>
+                        {% endif %}
+                        <div class="col-md-3">
+                            {{ form_row(form.work) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(form.tree) }}
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-8">
+                            {{ form_row(form.comment) }}
+                        </div>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

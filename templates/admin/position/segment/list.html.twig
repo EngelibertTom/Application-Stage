@@ -1,0 +1,85 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des segments' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_greenhouse_list') }}"> Positions </a> </li>
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_segment_list') }}"> Segments </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/position/_nav.html.twig' %}
+
+    {% if nbCultureTable %}
+        {% if nbSegment %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ path('app_admin_segment_add') }}" class="btn btn-info float-right">
+                            <i class="material-icons">add_circle</i> Ajouter un segment
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title "> Les segments </h4>
+                            <p class="card-category"> Liste des segments des tables </p>
+                        </div>
+                        <div class="card-body">
+                            <table id="tableSegment" class="table">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th> ID </th>
+                                        <th> Nom </th>
+                                        <th width="10%"> Actions </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            Liste des segments
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"> Aucun segment trouvé <br/>
+
+                            </h4>
+
+                            <a href="{{ path('app_admin_segment_add') }}" type="button" class="btn btn-info">
+                                <i class="material-icons">add_circle</i> Ajouter un segment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        Aucune table de renseignée !
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"> Veuillez d'abord ajouter une table </h4>
+
+                        <a href="{{ path('app_admin_culturetable_add') }}" type="button" class="btn btn-info">
+                            <i class="material-icons">add_circle</i> Ajouter une table
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

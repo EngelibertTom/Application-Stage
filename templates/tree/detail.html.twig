@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="{{ asset('img/logo.jpg') }}" height="200" alt="">
+        </div>
+        <div class="col-md-8 offset-2">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title"> Détail de l'arbre {{ tree }}</h4>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-12 mb-5">
+                                <div class="card card-nav-tabs">
+                                    <div class="card-header card-header-success">
+                                        Informations générales
+                                    </div>
+                                    <div class="cart-body p-3">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <b> Âge: </b> {{ tree.age ? tree.age ~ ' ans' : '-' }} <br/>
+                                                    <b> Espèce: </b> {{ tree.species ? tree.species : '-' }} <br/>
+                                                    <b> Catégorie: </b> {{ not tree.categories.isEmpty ? tree.categoriesStr : '-' }} <br/>
+                                                    <b> Styles potentiels: </b> {{ not tree.potentialStyles.isEmpty ? tree.potentialStylesStr : '-' }} <br/>
+                                                    {% if not tree.adoption %}
+                                                        <b> Serre: </b> {{ tree.greenhouse }} {{ tree.greenhouse ? '(' ~ tree.greenhouse.location ~ ')' : '' }} <br/>
+                                                    {% endif %}
+                                                    <b> Année de travail: </b> {{ tree.workingYear == 1 ? "-5 ans" : tree.workingYear == 2 ?  tree.workingYear == 3 ? '5-10 ans' : '-' }} <br/>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    {% if tree.species %}
+                                                        <b> Type de feuille: </b> {{ tree.species.leafType ? tree.species.leafType : '-' }} <br/>
+                                                        <b> Exposition: </b> {{ tree.species.recommendedExposure ? tree.species.recommendedExposure | labelExposure : '-' }} <br/>
+                                                        <b> Besoin en engrais: </b> {{ tree.species.fertilizerNeed ? tree.species.fertilizerNeed | labelFertilizer : '-' }} <br/>
+                                                        <b> Statut UICN: </b> {{ tree.species.statusUicn ? tree.species.statusUicn : '-' }} <br/>
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if tree.lot %}
+                                <div class="col-md-12 mb-5">
+                                    <div class="card card-nav-tabs">
+                                        <div class="card-header card-header-success">
+                                            Prélèvement
+                                        </div>
+                                        <div class="cart-body p-3">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p>
+                                                        <b> Date: </b> {{ tree.lot.entryDate ? tree.lot.entryDate | date('d/m/Y') : '-' }} <br/>
+                                                        <b> Lieu: </b> {{ tree.lot.place ? tree.lot.place : '-' }} <br/>
+                                                        <b> Ville: </b> {{ tree.lot.city ? tree.lot.city : '-' }} <br/>
+                                                        <b> Code postal: </b> {{ tree.lot.postalCode ? tree.lot.postalCode : '-' }} <br/>
+                                                    </p>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <p>
+                                                        <b> Cause: </b> <br/>{{ tree.lot.recoveryCause ? tree.lot.recoveryCause | raw | nl2br : '-' }} <br/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <div class="col-md-12">
+                                <div class="card card-nav-tabs">
+                                    <div class="card-header card-header-success">
+                                        Travaux
+                                    </div>
+                                    <div class="cart-body p-3">
+                                        {% if tree.works.empty %}
+                                            Aucun travaux effectué sur cet arbre.
+                                        {% else %}
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th> Date </th>
+                                                        <th> Travaux </th>
+                                                        <th> Commentaire </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for work in tree.works %}
+                                                        <tr>
+                                                            <td> {{ work.date | date('d/m/Y') }} </td>
+                                                            <td> {{ work.work }} </td>
+                                                            <td> {{ work.comment }} </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            {% include 'tree/includes/_history.html.twig' %}
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% for picture in tree.treePictures %}
+                                        <img src="{{ asset(picture.path) }}" alt="" height="150px">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 offset-2 text-center">
+        <a href="{{ path('app_admin_tree_edit', { id: tree.id }) }}"> <i class="material-icons">lock</i> Administrer
+        </a>
+    </div>
+    </div>
+
+{% endblock %}

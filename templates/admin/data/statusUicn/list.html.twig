@@ -1,0 +1,85 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des statut UICN' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_species_list') }}"> Données </a> </li>
+    <li class="active breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_statusuicn_list') }}"> Statut des UICN </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/data/_nav.html.twig' %}
+
+    {% if statusUicn | length %}
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ path('app_admin_statusuicn_add') }}" class="btn btn-info float-right">
+                    <i class="material-icons">add_circle</i> Ajouter un statut UICN
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title "> Les statuts UICN </h4>
+                        <p class="card-category"> Union internationale pour la conservation de la nature </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th> Nom </th>
+                                        <th> Description </th>
+                                        <th width="10%"> Actions </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for status in statusUicn %}
+                                        <tr>
+                                            <td> {{ status.name }} </td>
+                                            <td> {{ status.description }} </td>
+                                            <td class="td-actions">
+                                                <a href="{{ path('app_admin_statusuicn_edit', { id: status.id }) }}" rel="tooltip" class="btn btn-success btn-simple">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <button type="button" rel="tooltip" class="btn btn-danger btn-simple" data-toggle="modal" data-target="#confirmDelete{{ status.id }}">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        {{ modals.confirmDelete({
+                                            id: 'confirmDelete' ~ status.id,
+                                            pathDelete: path('app_admin_statusuicn_delete' , { id: status.id })
+                                        }) }}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        Liste des statuts UICN
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"> Aucun statut UICN trouvé </h4>
+
+                        <a href="{{ path('app_admin_statusuicn_add') }}" type="button" class="btn btn-info">
+                            <i class="material-icons">add_circle</i> Ajouter un statut
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

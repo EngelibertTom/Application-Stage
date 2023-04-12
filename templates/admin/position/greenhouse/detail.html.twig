@@ -1,0 +1,68 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_greenhouse_list') }}"> Serres </a></li>
+    <li class="active breadcrumb-item" aria-current="page"> {{ greenhouse }} </li>
+{% endblock %}
+
+{% block body %}
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-icon card-header-info">
+                <div class="card-icon">
+                    <i class="material-icons">other_houses</i>
+                </div>
+                <h4 class="card-title">
+                    Détail de <b>{{ greenhouse }}</b>
+                    <a href="{{ path('app_admin_greenhouse_edit', { id: greenhouse.id }) }}" class="btn btn-info btn-small pull-right p-2">
+                        <i class="material-icons">pageview</i>
+                    </a>
+                </h4>
+            </div>
+            <div class="card-body tab-greenhouse">
+                {% if greenhouse.cultureTables.empty %}
+                    <div class="alert alert-warning">
+                        <b> Attention - </b> Il n'y a aucune table de culture dans cette serre, veuillez en ajouter
+                        <a class="h4 font-weight-bold" href="{{ path('app_admin_greenhouse_edit', { id: greenhouse.id }) }}"> ici </a>
+                    </div>
+                {% else %}
+                    <ul class="nav nav-pills nav-pills-info" role="tablist">
+                        {% for cultureTable in greenhouse.cultureTables %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if loop.first %}active{% endif %}" data-toggle="tab" href="#linkTable-{{ cultureTable.id }}" role="tablist">
+                                    Table {{ cultureTable }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="tab-content tab-space">
+                        {% for cultureTable in greenhouse.cultureTables %}
+
+                            <div class="tab-pane {% if loop.first %}active{% endif %}" id="linkTable-{{ cultureTable.id }}">
+                                {{ render(controller('App\\Controller\\Admin\\GreenhouseController::diagramTable', {
+                                    id: greenhouse.id,
+                                    cultureTable: cultureTable
+                                })) }}
+                            </div>
+
+                            {% if loop.first %}
+                            <script>
+                                setTimeout(function () {
+                                    document.querySelector('a[href="#link-{{ cultureTable.id }}-All"]').click();
+                                }, 400)
+                            </script>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {{ modals.formController({
+        id: 'modalMoveInLot',
+        title: 'Déplacer dans un lot',
+        content: render(controller('App\\Controller\\Admin\\TreeController::moveInLot'))
+    }) }}
+{% endblock %}

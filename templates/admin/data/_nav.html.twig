@@ -1,0 +1,37 @@
+<ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_species_list' %} active {% endif %}"
+           href="{{ path('app_admin_species_list') }}"> Espèces </a>
+    </li>
+
+    {% if is_granted('ROLE_MANAGER') %}
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.get('_route') == 'app_admin_work_list' %} active {% endif %}"
+               href="{{ path('app_admin_work_list') }}"> Travaux </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.get('_route') == 'app_admin_pottype_list' %} active {% endif %}"
+               href="{{ path('app_admin_pottype_list') }}"> Types de pot </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.get('_route') == 'app_admin_style_list' %} active {% endif %}"
+               href="{{ path('app_admin_style_list') }}"> Styles </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.get('_route') == 'app_admin_leaftype_list' %} active {% endif %}"
+               href="{{ path('app_admin_leaftype_list') }}"> Types de feuille </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.get('_route') == 'app_admin_category_list' %} active {% endif %}"
+               href="{{ path('app_admin_category_list') }}"> Catégories </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.get('_route') == 'app_admin_outputtype_list' %} active {% endif %}"
+               href="{{ path('app_admin_outputtype_list') }}"> Types de sortie </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if app.request.get('_route') == 'app_admin_statusuicn_list' %} active {% endif %}"
+               href="{{ path('app_admin_statusuicn_list') }}"> Statuts UICN </a>
+        </li>
+    {% endif %}
+</ul>

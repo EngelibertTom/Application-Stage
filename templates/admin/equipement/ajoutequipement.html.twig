@@ -1,0 +1,29 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Hello EquipementController!{% endblock %}
+
+{% block body %}
+    {% include 'admin/equipement/_nav.html.twig' %}
+    <h1>Formulaire d'ajout d'équipement</h1>
+
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form_row(form.name) }}
+                </div>
+
+                <div class="col-md-3">
+                    {{ form_row(form.commentaire) }}
+                </div>
+            </div>
+        </div>
+       <button type="submit" class="btn btn-success">Ajouter l'équipement </button>
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}
+

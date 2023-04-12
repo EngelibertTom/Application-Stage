@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <h2 class="login-title">Créer mon compte</h2>
+
+            {{ form_start(formowner) }}
+
+            {{ form_row(formowner.name) }}
+            {{ form_row(formowner.email) }}
+            {{ form_row(formowner.phone) }}
+            {{ form_row(formowner.plainPassword) }}
+
+            {{ form_end(formowner)}}
+        </div>
+    </div>
+
+{% endblock %}

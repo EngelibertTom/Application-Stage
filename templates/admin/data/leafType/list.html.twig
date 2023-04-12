@@ -1,0 +1,86 @@
+{% extends 'admin/base.html.twig' %}
+{% import "admin/macros/modals.html.twig" as modals %}
+
+{% set title = 'Liste des types de feuille' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"> <a href="{{ path('app_admin_species_list') }}"> Données </a> </li>
+    <li class="active breadcrumb-item" aria-current="page"><a href="{{ path('app_admin_leaftype_list') }}"> Types de feuille </a> </li>
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/data/_nav.html.twig' %}
+
+    {% if leafTypes | length %}
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{{ path('app_admin_leaftype_add') }}" class="btn btn-info float-right">
+                    <i class="material-icons">add_circle</i> Ajouter un type de feuille
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title "> Les types de feuille </h4>
+                        <p class="card-category"> Liste des types de feuille des arbres </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        <th> Nom </th>
+                                        <th width="10%"> Actions </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for leafType in leafTypes %}
+                                        <tr>
+                                            <td> {{ leafType.name }} </td>
+                                            <td class="td-actions">
+                                                <a href="{{ path('app_admin_leaftype_edit', { id: leafType.id }) }}" rel="tooltip" class="btn btn-success btn-simple">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <button type="button" rel="tooltip" class="btn btn-danger btn-simple" data-toggle="modal" data-target="#confirmDelete{{ leafType.id }}">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        {{ modals.confirmDelete({
+                                            id: 'confirmDelete' ~ leafType.id,
+                                            pathDelete: path('app_admin_leaftype_delete' , { id: leafType.id })
+                                        }) }}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="card">
+                    <div class="card-header card-header-info">
+                        Liste des types de feuille
+                    </div>
+                    <div class="card-body">
+                    <div class="card-body">
+                        <h4 class="card-title"> Aucun type de feuille trouvé <br/>
+
+                        </h4>
+
+                        <a href="{{ path('app_admin_leaftype_add') }}" type="button" class="btn btn-info">
+                            <i class="material-icons">add_circle</i> Ajouter un type
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

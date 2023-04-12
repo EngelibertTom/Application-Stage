@@ -1,0 +1,11 @@
+#!/bin/bash
+
+git pull
+composer install
+yarn install
+yarn encore prod
+chown -R www-data:www-data *
+php bin/console cache:clear -e prod
+php bin/console d:s:u --dump-sql --force
+chown -R www-data:www-data *
+php bin/console cache:clear -e prod

@@ -1,0 +1,79 @@
+{% extends 'admin/base.html.twig' %}
+
+
+
+{% block body %}
+    {% include 'admin/equipement/_nav.html.twig' %}
+
+    <h1>Les entretiens</h1>
+    <a href="{{ path('app_admin_ajoutentretien') }}" >Ajouter un entretien</a>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title "> Les entretiens</h4>
+                    <p class="card-category"> Liste des entretiens </p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                            <tr>
+                                <th> Date de réalisation </th>
+                                <th> Observation</th>
+                                <th> Nom </th>
+                                <th> Equipement</th>
+                                <th> Type </th>
+                                <th> Planifier </th>
+                                <th> Urgence </th>
+                                <th> Utilisateur </th>
+
+
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for donnee in donnees %}
+                                <tr>
+                                    <td> {{ donnee.dateRealisation|date('d-m-Y')}} </td>
+                                    <td> {{ donnee.observation }}</td>
+                                    <td> {{ donnee.nom}}</td>
+                                    <td> {{ donnee.equipement }}</td>
+                                    <td> {{ donnee.type }}</td>
+                                    <td> {{ donnee.planifier }}</td>
+                                    <td> {{ donnee.urgence }}</td>
+                                    <td> {{ donnee.utilisateur }}</td>
+
+
+                                    <th class="td-actions">
+
+                                        <a href="{{ path('app_admin_editentretien', { id: donnee.id }) }}"
+                                           rel="tooltip" class="btn btn-success btn-simple">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+
+                                        <a href="{{ path('app_admin_deleteentretien', { id: donnee.id }) }}"
+                                           rel="tooltip" class="btn btn-danger btn-simple">
+                                            <i class="material-icons">close</i>
+                                        </a>
+
+
+
+                                    </th>
+
+                                </tr>
+
+
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock body %}

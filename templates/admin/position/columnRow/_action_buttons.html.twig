@@ -1,0 +1,13 @@
+{% import "admin/macros/modals.html.twig" as modals %}
+
+<a href="{{ path('app_admin_columnrow_edit', { id: columnRow.id }) }}" rel="tooltip" class="btn btn-success btn-simple">
+    <i class="material-icons">edit</i>
+</a>
+<button type="button" rel="tooltip" class="btn btn-danger btn-simple" data-toggle="modal" data-target="#confirmDelete{{ columnRow.id }}">
+    <i class="material-icons">close</i>
+</button>
+
+{{ modals.confirmDelete({
+    id: 'confirmDelete' ~ columnRow.id,
+    pathDelete: path('app_admin_columnrow_delete' , { id: columnRow.id })
+}) }}

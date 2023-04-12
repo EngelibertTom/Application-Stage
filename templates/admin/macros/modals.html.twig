@@ -1,0 +1,62 @@
+{% macro basic(data) %}
+    <div class="modal fade" id="{{ data.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ data.id }}Label" aria-hidden="true">
+        <div class="modal-dialog modal-{{ data.size|default('md') }}" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="{{ data.id }}Label"> {{ data.title }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ data.content | raw }}
+                </div>
+                <div class="modal-footer">
+                    {{ data.footer | raw }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro confirmDelete(data) %}
+    <div class="modal fade" id="{{ data.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ data.id }}Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="{{ data.id }}Label"> Supprimer ? </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ data.content|default('Etes-vous sûr que vous voulez supprimer?') }}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal"> Non </button>
+                    {% if data.pathDelete is defined %}
+                        <a href="{{ data.pathDelete }}" class="btn btn-danger"> Oui </a>
+                    {% else %}
+                        <button class="btn btn-danger btn-confirm" type="button"> Oui </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro formController(data) %}
+    <div class="modal fade" id="{{ data.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ data.id }}Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="{{ data.id }}Label"> {{ data.title }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{ data.content | raw }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

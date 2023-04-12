@@ -1,0 +1,54 @@
+{% extends 'admin/base.html.twig' %}
+
+
+
+{% block body %}
+    {% include 'admin/equipement/_nav.html.twig' %}
+
+    <h1> Ajouter un entretien </h1>
+
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+
+                <div class="col-md-3">
+                    {{ form_row(form.dateRealisation) }}
+                </div>
+
+                <div class="col-md-3">
+                    {{ form_row(form.observation) }}
+                </div>
+
+                <div class="col-md-3">
+                    {{ form_row(form.nom) }}
+                </div>
+
+                <div class="col-md-3">
+                    {{ form_row(form.equipement) }}
+                </div>
+
+                <div class="col-md-3">
+                    {{ form_row(form.type) }}
+                </div>
+
+                <div class="col-md-3">
+                    {{ form_row(form.planifier) }}
+                </div>
+
+                <div class="col-md-3">
+                    {{ form_row(form.urgence) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.utilisateur) }}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success" style="margin-top:60px;">Ajouter l'entretien</button>
+
+    {{ form_end(form) }}
+{% endblock %}

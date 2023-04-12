@@ -1,0 +1,65 @@
+{% use "bootstrap_4_layout.html.twig" %}
+
+{% block checkbox_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+
+    {%- if 'checkbox-custom' in parent_label_class -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' custom-control-input')|trim}) -%}
+        <div class="custom-control custom-checkbox{{ 'checkbox-inline' in parent_label_class ? ' custom-control-inline' }}">
+            {{- form_label(form, null, { widget: parent() }) -}}
+        </div>
+    {%- elseif 'switch-custom' in parent_label_class -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' custom-control-input')|trim}) -%}
+        <div class="custom-control custom-switch{{ 'switch-inline' in parent_label_class ? ' custom-control-inline' }}">
+            {{- form_label(form, null, { widget: parent() }) -}}
+        </div>
+    {%- else -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-check-input')|trim}) -%}
+        <div class="form-check{{ 'checkbox-inline' in parent_label_class ? ' form-check-inline' }}">
+            <label class="form-check-label">
+                <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+
+                {{- label|raw -}}
+
+                <span class="form-check-sign">
+                <span class="check"></span>
+            </span>
+            </label>
+        </div>
+    {%- endif -%}
+{%- endblock checkbox_widget %}
+
+{% block file_widget -%}
+{#    <{{ element|default('div') }} class="custom-file">#}
+    <div class="form-group form-file-upload form-file-multiple">
+    {%- set type = type|default('file') -%}
+    {{- block('form_widget_simple') -}}
+    <div class="input-group">
+        <input type="text" class="form-control inputFileVisible image" placeholder="Un seul fichier">
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-fab btn-round btn-primary">
+                <i class="material-icons">attach_file</i>
+            </button>
+        </span>
+    </div>
+    {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' custom-file-label')|trim }) -%}
+    {%- set input_lang = 'en' -%}
+    {% if app is defined and app.request is defined %}{%- set input_lang = app.request.locale -%}{%- endif -%}
+{#    <label for="{{ form.vars.id }}" lang="{{ input_lang }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>#}
+{#        {%- if attr.placeholder is defined and attr.placeholder is not none -%}#}
+{#            {{- translation_domain is same as(false) ? attr.placeholder : attr.placeholder|trans({}, translation_domain) -}}#}
+{#        {%- endif -%}#}
+{#    </label>#}
+{#    </{{ element|default('div') }}>#}
+    </div>
+{% endblock %}
+
+{% block form_errors -%}
+    {%- if errors|length > 0 -%}
+        {%- for error in errors -%}
+            <span class="d-block mb-2">
+                   <span class="form-error-message text-danger">{{ error.message }}</span>
+                </span>
+        {%- endfor -%}
+    {%- endif %}
+{%- endblock form_errors %}

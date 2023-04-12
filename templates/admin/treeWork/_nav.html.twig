@@ -1,0 +1,11 @@
+<ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_tree_work_list' and not todo %} active {% endif %}"
+           href="{{ path('app_admin_tree_work_list') }}"> Travaux à réaliser </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link {% if app.request.get('_route') == 'app_admin_tree_work_list' and todo %} active {% endif %}"
+           href="{{ path('app_admin_tree_work_list', { todo: 1 }) }}"> Travaux effectués </a>
+    </li>
+</ul>
